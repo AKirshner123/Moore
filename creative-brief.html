@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategic Creative Brief</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#1a1a2e;background:#f5f6f8;line-height:1.5}
+.app{max-width:900px;margin:0 auto;padding:24px 20px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding:14px 18px;background:#fff;border-radius:10px;border:1px solid #e2e4e9}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.app-title{font-size:17px;font-weight:600;color:#1a1a2e}
+.badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;background:#e6f1fb;color:#185fa5}
+.progress-wrap{display:flex;align-items:center;gap:8px}
+.progress-bar{width:130px;height:5px;background:#e2e4e9;border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:#378add;border-radius:3px;transition:width 0.3s}
+.progress-label{font-size:12px;color:#6b7280}
+.btn{padding:7px 14px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #d1d5db;background:#fff;color:#374151;transition:background 0.15s}
+.btn:hover{background:#f3f4f6}
+.btn-primary{background:#378add;color:#fff;border-color:#378add}
+.btn-primary:hover{background:#185fa5;border-color:#185fa5}
+.btn-sm{padding:5px 11px;font-size:12px}
+.nav{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.nav-btn{padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;border:1px solid #e2e4e9;background:#fff;color:#6b7280;transition:all 0.15s}
+.nav-btn:hover{border-color:#9ca3af;color:#374151}
+.nav-btn.active{background:#378add;color:#fff;border-color:#378add}
+.section{display:none}
+.section.active{display:block}
+.section-header{margin-bottom:16px}
+.section-title{font-size:15px;font-weight:600;color:#1a1a2e;margin-bottom:3px}
+.section-desc{font-size:13px;color:#6b7280}
+.card{background:#fff;border:1px solid #e2e4e9;border-radius:10px;padding:18px;margin-bottom:14px}
+.card-title{font-size:11px;font-weight:600;color:#9ca3af;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.06em}
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:7px;font-size:13px;color:#1a1a2e;background:#fff;outline:none;font-family:inherit}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#378add;box-shadow:0 0 0 3px rgba(55,138,221,0.12)}
+.field textarea{resize:vertical;min-height:70px;line-height:1.5}
+.field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.req{color:#e24b4a;margin-left:2px}
+.hint{font-size:11px;color:#9ca3af;margin-top:3px}
+.dyn-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+.dyn-table th{font-size:11px;font-weight:600;color:#6b7280;padding:7px 8px;border-bottom:1px solid #e2e4e9;text-align:left;background:#f9fafb}
+.dyn-table td{padding:5px 4px;vertical-align:top;border-bottom:1px solid #f3f4f6}
+.dyn-table td input,.dyn-table td select{width:100%;padding:5px 7px;font-size:12px;border:1px solid #d1d5db;border-radius:6px;color:#1a1a2e;background:#fff;font-family:inherit}
+.dyn-table td input:focus,.dyn-table td select:focus{border-color:#378add;outline:none;box-shadow:0 0 0 2px rgba(55,138,221,0.1)}
+.dyn-table .del-btn{background:none;border:none;cursor:pointer;color:#d1d5db;font-size:16px;padding:0 4px;line-height:1;transition:color 0.15s}
+.dyn-table .del-btn:hover{color:#e24b4a}
+.add-row-btn{margin-top:8px;font-size:12px;color:#378add;background:none;border:none;cursor:pointer;padding:4px 0;font-weight:600}
+.add-row-btn:hover{color:#185fa5}
+.tag-input-wrap{display:flex;flex-wrap:wrap;gap:5px;padding:6px 8px;border:1px solid #d1d5db;border-radius:7px;min-height:38px;background:#fff;cursor:text;transition:border-color 0.15s}
+.tag-input-wrap:focus-within{border-color:#378add;box-shadow:0 0 0 3px rgba(55,138,221,0.12)}
+.tag{display:inline-flex;align-items:center;gap:4px;background:#e6f1fb;color:#185fa5;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:500}
+.tag .tag-x{cursor:pointer;opacity:0.6;font-size:11px;line-height:1}
+.tag .tag-x:hover{opacity:1}
+.tag-input{border:none;outline:none;font-size:13px;background:transparent;color:#1a1a2e;min-width:80px;flex:1;font-family:inherit}
+.char-count{font-size:11px;color:#9ca3af;text-align:right;margin-top:2px}
+.section-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid #e2e4e9}
+.divider{height:1px;background:#f3f4f6;margin:14px 0}
+.radio-group{display:flex;gap:14px;flex-wrap:wrap;margin-top:4px}
+.radio-opt{display:flex;align-items:center;gap:6px;font-size:13px;color:#374151;cursor:pointer}
+.radio-opt input[type=radio]{width:auto;cursor:pointer;accent-color:#378add}
+.review-row{display:flex;padding:7px 0;border-bottom:1px solid #f3f4f6}
+.review-row:last-child{border-bottom:none}
+.review-label{font-size:13px;color:#6b7280;width:190px;flex-shrink:0}
+.review-val{font-size:13px;color:#1a1a2e;font-weight:500}
+.save-toast{position:fixed;bottom:20px;right:20px;background:#1a7a4a;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:1000}
+.save-toast.show{opacity:1}
+@media(max-width:600px){
+  .grid2,.grid3{grid-template-columns:1fr}
+  .topbar{flex-direction:column;gap:10px;align-items:flex-start}
+  .nav-btn{font-size:12px;padding:5px 10px}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="app-title">Strategic creative brief</span>
+    <span class="badge" id="mode-badge">Project overview</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+      <span class="progress-label" id="prog-label">0% complete</span>
+    </div>
+    <button class="btn btn-sm" onclick="exportBrief()">Export JSON</button>
+    <button class="btn btn-sm" onclick="printBrief()">Print / PDF</button>
+    <button class="btn btn-primary btn-sm" onclick="saveBrief()">Save draft</button>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" data-sec="summary" onclick="showSection('summary')">Overview</button>
+  <button class="nav-btn" data-sec="background" onclick="showSection('background')">Background</button>
+  <button class="nav-btn" data-sec="goals" onclick="showSection('goals')">Goals</button>
+  <button class="nav-btn" data-sec="audience" onclick="showSection('audience')">Audience</button>
+  <button class="nav-btn" data-sec="strategy" onclick="showSection('strategy')">Strategy</button>
+  <button class="nav-btn" data-sec="offer" onclick="showSection('offer')">Offer</button>
+  <button class="nav-btn" data-sec="creative" onclick="showSection('creative')">Creative</button>
+  <button class="nav-btn" data-sec="dm" onclick="showSection('dm')">DM package</button>
+  <button class="nav-btn" data-sec="digital" onclick="showSection('digital')">Digital</button>
+  <button class="nav-btn" data-sec="review" onclick="showSection('review')">Review</button>
+</div>
+
+<!-- SECTION: Overview -->
+<div class="section active" id="sec-summary">
+  <div class="section-header">
+    <div class="section-title">1. Project overview</div>
+    <div class="section-desc">Core identifying information for this campaign</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Campaign identity</div>
+    <div class="grid2">
+      <div class="field">
+        <label>Campaign name <span class="req">*</span></label>
+        <input type="text" id="campaign-name" placeholder="e.g. Spring Appeal 2025" oninput="updateProgress()">
+      </div>
+      <div class="field">
+        <label>Job code / ID</label>
+        <input type="text" id="job-code" placeholder="e.g. MOO-2025-042">
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="field">
+        <label>Client / brand tier</label>
+        <select id="client-brand">
+          <option value="">Select...</option>
+          <option>Tier 1 — Enterprise</option>
+          <option>Tier 2 — Mid-market</option>
+          <option>Tier 3 — Growth</option>
+          <option>Internal</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Prepared by</label>
+        <input type="text" id="prepared-by" placeholder="Your name">
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="brief-date">
+      </div>
+      <div class="field">
+        <label>Project type</label>
+        <div class="radio-group">
+          <label class="radio-opt"><input type="radio" name="proj-type" value="new"> New approach</label>
+          <label class="radio-opt"><input type="radio" name="proj-type" value="evolution"> Evolution of existing</label>
+          <label class="radio-opt"><input type="radio" name="proj-type" value="test"> A/B test</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Channels</div>
+    <div class="field">
+      <label>Primary channels <span class="req">*</span></label>
+      <div id="channel-tags" class="tag-input-wrap" onclick="document.getElementById('channel-input').focus()">
+        <input class="tag-input" id="channel-input" placeholder="Type a channel and press Enter (e.g. Email, Direct Mail, SMS...)" onkeydown="addTag(event,'channel-tags','channel-input')">
+      </div>
+      <div class="hint">Press Enter after each channel to add it as a tag</div>
+    </div>
+    <div class="field" style="margin-top:12px">
+      <label>Additional notes</label>
+      <textarea id="overview-notes" placeholder="Any additional context about this project..."></textarea>
+    </div>
+  </div>
+  <div class="section-nav">
+    <span></span>
+    <button class="btn btn-primary" onclick="showSection('background')">Next: Background ›</button>
+  </div>
+</div>
+
+<!-- SECTION: Background -->
+<div class="section" id="sec-background">
+  <div class="section-header">
+    <div class="section-title">2. Project background & context</div>
+    <div class="section-desc">Why this campaign, why now</div>
+  </div>
+  <div class="card">
+    <div class="field">
+      <label>Why this campaign now? <span class="req">*</span></label>
+      <textarea id="why-now" placeholder="What's driving this campaign at this moment?" oninput="updateProgress()"></textarea>
+    </div>
+    <div class="field">
+      <label>Description of the client's work</label>
+      <textarea id="client-desc" placeholder="Brief description of what the client does and their mission..."></textarea>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Context & history</div>
+    <div class="field">
+      <label>Events, concerns, or trends that could impact the campaign</label>
+      <textarea id="trends" placeholder="Current events, political climate, seasonal factors, competitive landscape..."></textarea>
+    </div>
+    <div class="field">
+      <label>Results from past campaigns</label>
+      <textarea id="past-results" placeholder="Key metrics, response rates, revenue, learnings from previous work..."></textarea>
+    </div>
+  </div>
+  <div class="section-nav">
+    <button class="btn" onclick="showSection('summary')">‹ Back</button>
+    <button class="btn btn-primary" onclick="showSection('goals')">Next: Goals ›</button>
+  </div>
+</div>
+
+<!-- SECTION: Goals -->
+<div class="section" id="sec-goals">
+  <div class="section-header">
+    <div class="section-title">3. Goals & objectives</div>
+    <div class="section-desc">Define success before work begins</div>
+  </div>
+  <div class="card">
+    <div class="field">
+      <label>Primary goal <span class="req">*</span></label>
+      <select id="primary-goal" oninput="updateProgress()">
+        <option value="">Select primary goal...</option>
+        <option>Revenue — maximize donations / revenue</option>
+        <option>Acquisition — acquire new donors</option>
+        <option>Retention — retain and upgrade existing donors</option>
+        <option>Reactivation — reactivate lapsed donors</option>
+        <option>Awareness — build brand / mission awareness</option>
+        <option>Cultivation — steward mid/major donors</option>
+        <option>Sustainer conversion — convert one-time to monthly</option>
+        <option>Event-driven — drive event attendance or response</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Secondary goal(s)</label>
+      <textarea id="secondary-goals" placeholder="Optional secondary objectives..."></textarea>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Measurement</div>
+    <div class="field">
+      <label>Success metrics & KPIs</label>
+      <div id="kpi-tags" class="tag-input-wrap" onclick="document.getElementById('kpi-input').focus()">
+        <input class="tag-input" id="kpi-input" placeholder="e.g. Response rate, Revenue, ROAS, Cost per donor..." onkeydown="addTag(event,'kpi-tags','kpi-input')">
+      </div>
+    </div>
+    <div class="field" style="margin-top:12px">
+      <label>Prior tests & learnings</label>
+      <textarea id="prior-tests" placeholder="What have we already tested? What did we learn?"></textarea>
+    </div>
+    <div class="field">
+      <label>Deliverables & specs needed</label>
+      <textarea id="deliverables-overview" placeholder="High-level list of all creative outputs required..."></textarea>
+    </div>
+  </div>
+  <div class="section-nav">
+    <button class="btn" onclick="showSection('background')">‹ Back</button>
+    <button class="btn btn-primary" onclick="showSection('audience')">Next: Audience ›</button>
+  </div>
+</div>
+
+<!-- SECTION: Audience -->
+<div class="section" id="sec-audience">
+  <div class="section-header">
+    <div class="section-title">4. Target audience & segmentation</div>
+    <div class="section-desc">Who are we talking to, and how are we grouping them</div>
+  </div>
+  <div class="card">
+    <div class="field">
+      <label>Primary audience(s) <span class="req">*</span></label>
+      <div id="aud-tags" class="tag-input-wrap" onclick="document.getElementById('aud-input').focus()">
+        <input class="tag-input" id="aud-input" placeholder="e.g. Active donors, Lapsed 24-month, Sustainers..." onkeydown="addTag(event,'aud-tags','aud-input')" oninput="updateProgress()">
+      </div>
+    </div>
+    <div class="field" style="margin-top:12px">
+      <label>Audience insights / personas</label>
+      <textarea id="aud-insights" placeholder="What motivates this audience? Key demographics, psychographics, giving history..."></textarea>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Segmentation</div>
+    <div class="field">
+      <label>Segmentation strategy</label>
+      <select id="seg-strategy">
+        <option value="">Select approach...</option>
+        <option>RFM (Recency / Frequency / Monetary)</option>
+        <option>Giving level / ask string tiers</option>
+        <option>Donor type (single / sustainer / major)</option>
+        <option>Engagement / behavioral</option>
+        <option>Geographic</option>
+        <option>Channel preference</option>
+        <option>Custom / hybrid</option>
+      </select>
+    </div>
+    <div class="field" style="margin-top:12px">
+      <label>Personalization requirements</label>
+      <textarea id="personalization" placeholder="Variable content, name/ask personalization, dynamic creative elements..."></textarea>
+    </div>
+    <div class="field">
+      <label>Quantity by segment</label>
+      <textarea id="qty-segment" placeholder="e.g. Segment A (lapsed 12mo): 50,000 / Segment B (active single): 120,000"></textarea>
+    </div>
+  </div>
+  <div class="section-nav">
+    <button class="btn" onclick="showSection('goals')">‹ Back</button>
+    <button class="btn btn-primary" onclick="showSection('strategy')">Next: Strategy ›</button>
+  </div>
+</div>
+
+<!-- SECTION: Strategy -->
+<div class="section" id="sec-strategy">
+  <div class="section-header">
+    <div class="section-title">5. Strategy</div>
+    <div class="section-desc">The thinking that guides all creative decisions</div>
+  </div>
+  <div class="card">
+    <div class="field">
+      <label>Key challenge we are trying to solve <span class="req">*</span></label>
+      <textarea id="key-challenge" placeholder="What is the core problem this campaign must address?" oninput="updateProgress()"></textarea>
+    </div>
+    <div class="field">
+      <label>How will we solve this with creative?</label>
+      <textarea id="creative-solution" placeholder="The strategic approach — what angle, framework, or idea will guide our creative response?"></textarea>
+    </div>
+    <div class="field">
+      <label>What are we trying to communicate?</label>
+      <textarea id="communicate" placeholder="The single most important thing the audience should take away..."></textarea>
+    </div>
+  </div>
+  <div class="section-nav">
+    <button class="btn" onclick="showSection('audience')">‹ Back</button>
+    <button class="btn btn-primary" onclick="showSection('offer')">Next: Offer ›</button>
+  </div>
+</div>
+
+<!-- SECTION: Offer -->
+<div class="section" id="sec-offer">
+  <div class="section-header">
+    <div class="section-title">6. Offer & key positioning</div>
+    <div class="section-desc">The value exchange and reason to act now</div>
+  </div>
+  <div class="card">
+    <div class="field">
+      <label>Offer / value proposition <span class="req">*</span></label>
+      <textarea id="offer-vp" placeholder="Why should a donor give, and what will their gift accomplish?" oninput="updateProgress()"></textarea>
+    </div>
+    <div class="field">
+      <label>Supporting messaging</label>
+      <textarea id="supporting-msg" placeholder="Secondary proof points, impact statements, testimonials..."></textarea>
+    </div>
+    <div class="field">
+      <label>Urgency / seasonal hook</label>
+      <textarea id="urgency" placeholder="Deadline, matching gift, seasonal moment, key event or news hook..."></textarea>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Ask strategy</div>
+    <div class="field">
+      <label>Tone / voice</label>
+      <select id="tone">
+        <option value="">Select tone...</option>
+        <option>Urgent & emotional</option>
+        <option>Warm & personal</option>
+        <option>Inspirational & aspirational</option>
+        <option>Informational & credible</option>
+        <option>Conversational & direct</option>
+        <option>Bold & provocative</option>
+        <option>Grateful & stewardship-focused</option>
+        <option>Custom (describe below)</option>
+      </select>
+    </div>
+    <div class="field" style="margin-top:12px">
+      <label>Dollar asks / ask strings / equivalencies</label>
+      <textarea id="ask-strings" placeholder="e.g. $25 / $50 / $100 / $250 / Other&#10;Equivalency: $50 feeds a family for a week"></textarea>
+    </div>
+  </div>
+  <div class="section-nav">
+    <button class="btn" onclick="showSection('strategy')">‹ Back</button>
+    <button class="btn btn-primary" onclick="showSection('creative')">Next: Creative ›</button>
+  </div>
+</div>
+
+<!-- SECTION: Creative -->
+<div class="section" id="sec-creative">
+  <div class="section-header">
+    <div class="section-title">7. Creative direction</div>
+    <div class="section-desc">Everything the creative team needs to execute</div>
+  </div>
+  <div class="card">
+    <div class="field">
+      <label>Key messaging / positioning</label>
+      <textarea id="key-msg" placeholder="The core message framework and hierarchy..."></textarea>
+    </div>
+    <div class="field">
+      <label>Key insight to innovate in response to the challenge</label>
+      <textarea id="key-insight" placeholder="The aha moment or creative tension that unlocks the brief..."></textarea>
+    </div>
+    <div class="field">
+      <label>Stories and visuals</label>
+      <textarea id="stories-visuals" placeholder="Story angles, subject names, photography direction, visual mood..."></textarea>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Assets & references</div>
+    <div class="field">
+      <label>Required assets</label>
+      <div id="asset-tags" class="tag-input-wrap" onclick="document.getElementById('asset-input').focus()">
+        <input class="tag-input" id="asset-input" placeholder="Brand guidelines, photography, premiums..." onkeydown="addTag(event,'asset-tags','asset-input')">
+      </div>
+    </div>
+    <div class="field" style="margin-top:12px">
+      <label>Reference links / inspiration / competitors</label>
+      <textarea id="references" placeholder="URLs, campaign names, competitor examples..."></textarea>
+    </div>
+    <div class="field">
+      <label>Links to prior creative</label>
+      <textarea id="prior-creative" placeholder="Links to previous campaign assets, control packages..."></textarea>
+    </div>
+    <div class="divider"></div>
+    <div class="field">
+      <label>Mandatories — must-haves</label>
+      <div id="mandatory-tags" class="tag-input-wrap" onclick="document.getElementById('mandatory-input').focus()">
+        <input class="tag-input" id="mandatory-input" placeholder="Logo placement, legal copy, URL, phone number..." onkeydown="addTag(event,'mandatory-tags','mandatory-input')">
+      </div>
+    </div>
+    <div class="field" style="margin-top:12px">
+      <label>Budget</label>
+      <input type="text" id="budget" placeholder="e.g. $45,000 total / $12,000 production">
+    </div>
+  </div>
+  <div class="section-nav">
+    <button class="btn" onclick="showSection('offer')">‹ Back</button>
+    <button class="btn btn-primary" onclick="showSection('dm')">Next: DM package ›</button>
+  </div>
+</div>
+
+<!-- SECTION: DM -->
+<div class="section" id="sec-dm">
+  <div class="section-header">
+    <div class="section-title">8–10. Direct mail section</div>
+    <div class="section-desc">Package details, production specs, testing, and timeline</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Package</div>
+    <div class="field">
+      <label>Package components</label>
+      <div id="dm-tags" class="tag-input-wrap" onclick="document.getElementById('dm-input').focus()">
+        <input class="tag-input" id="dm-input" placeholder="OE, letter, BRE, lift note, insert..." onkeydown="addTag(event,'dm-tags','dm-input')">
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="field"><label>Mail date</label><input type="date" id="mail-date"></div>
+      <div class="field"><label>In-home date</label><input type="date" id="inhome-date"></div>
+    </div>
+    <div class="field" style="margin-top:12px">
+      <label>Premiums / add-ons</label>
+      <textarea id="premiums" placeholder="Labels, calendar, gift card, petition, notepad..."></textarea>
+    </div>
+    <div class="field">
+      <label>Additional multichannel components</label>
+      <div id="multi-tags" class="tag-input-wrap" onclick="document.getElementById('multi-input').focus()">
+        <input class="tag-input" id="multi-input" placeholder="Influencers, PSA, CTV..." onkeydown="addTag(event,'multi-tags','multi-input')">
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Production & technical</div>
+    <div class="field"><label>Print specs</label><textarea id="print-specs" placeholder="Paper stock, size, colors, finish, bindery..."></textarea></div>
+    <div class="grid2">
+      <div class="field"><label>Mailing quantities by segment</label><textarea id="mail-qty" placeholder="Segment breakdown and quantities..."></textarea></div>
+      <div class="field"><label>Versioning / data merge notes</label><textarea id="versioning" placeholder="Variable field rules, version logic..."></textarea></div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="field"><label>Appeal codes</label><input type="text" id="appeal-codes" placeholder="e.g. SP25DM-A"></div>
+      <div class="field"><label>Acknowledgment copy</label><textarea id="ack-copy" placeholder="Thank you language..."></textarea></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Testing plan</div>
+    <div class="field"><label>Control vs. test(s)</label><textarea id="control-test" placeholder="Describe the control and what you're testing..."></textarea></div>
+    <div class="grid3">
+      <div class="field"><label>Creative variables</label><textarea id="creative-vars" placeholder="Copy, format, offer, image..."></textarea></div>
+      <div class="field"><label>Audience splits</label><textarea id="aud-splits" placeholder="Holdout %, test cell sizes..."></textarea></div>
+      <div class="field"><label>Success metrics</label><textarea id="test-metrics" placeholder="What constitutes a winning test?"></textarea></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Timeline</div>
+    <div style="overflow-x:auto">
+      <table class="dyn-table">
+        <thead><tr><th>Task</th><th>Owner</th><th>Start date</th><th>Due date</th><th style="width:32px"></th></tr></thead>
+        <tbody id="timeline-body"></tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" onclick="addTimelineRow()">+ Add task</button>
+    <div class="field" style="margin-top:14px"><label>Review process / key decision makers</label><textarea id="review-process" placeholder="Who approves at each stage?"></textarea></div>
+    <div class="field"><label>Next steps / approvals</label><textarea id="next-steps" placeholder="Immediate action items and owners..."></textarea></div>
+  </div>
+  <div class="section-nav">
+    <button class="btn" onclick="showSection('creative')">‹ Back</button>
+    <button class="btn btn-primary" onclick="showSection('digital')">Next: Digital ›</button>
+  </div>
+</div>
+
+<!-- SECTION: Digital -->
+<div class="section" id="sec-digital">
+  <div class="section-header">
+    <div class="section-title">11–22. Digital section</div>
+    <div class="section-desc">Email, SMS, paid media, deliverables, and performance tracking</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Campaign overview</div>
+    <div class="grid2">
+      <div class="field">
+        <label>Campaign dates</label>
+        <div class="grid2">
+          <input type="date" id="dig-start">
+          <input type="date" id="dig-end">
+        </div>
+      </div>
+      <div class="field"><label>Revenue goal</label><input type="text" id="revenue-goal" placeholder="e.g. $500,000"></div>
+    </div>
+    <div class="field" style="margin-top:12px">
+      <label>Digital channels</label>
+      <div id="dig-chan-tags" class="tag-input-wrap" onclick="document.getElementById('dig-chan-input').focus()">
+        <input class="tag-input" id="dig-chan-input" placeholder="Email, SMS, Paid Social, Display, SEM, CTV..." onkeydown="addTag(event,'dig-chan-tags','dig-chan-input')">
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="field"><label>Digital objectives</label><textarea id="dig-objectives" placeholder="Specific digital goals and KPIs..."></textarea></div>
+      <div class="field"><label>Digital strategy</label><textarea id="dig-strategy" placeholder="Channel mix rationale, sequencing, retargeting..."></textarea></div>
+    </div>
+    <div class="field"><label>Key learnings from past campaigns</label><textarea id="dig-learnings" placeholder="What worked, what didn't, open/click rates, ROAS benchmarks..."></textarea></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Audience segmentation</div>
+    <div class="field">
+      <label>Primary audiences</label>
+      <div id="dig-aud-tags" class="tag-input-wrap" onclick="document.getElementById('dig-aud-input').focus()">
+        <input class="tag-input" id="dig-aud-input" placeholder="Donors, Non-donors, Lapsed, OAS, Sustainers, PLG..." onkeydown="addTag(event,'dig-aud-tags','dig-aud-input')">
+      </div>
+    </div>
+    <div class="field" style="margin-top:12px"><label>Audience treatments</label><textarea id="aud-treatments" placeholder="Suppression rules, custom versions, exclusions, holdouts..."></textarea></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Offer & messaging</div>
+    <div class="grid2">
+      <div class="field">
+        <label>Core message / tagline</label>
+        <input type="text" id="core-tagline" placeholder="The headline concept..." oninput="document.getElementById('tagline-count').textContent=this.value.length+' / 80'">
+        <div class="char-count" id="tagline-count">0 / 80</div>
+      </div>
+      <div class="field"><label>Key theme / concept</label><input type="text" id="key-theme" placeholder="e.g. Hope in action"></div>
+    </div>
+    <div class="field" style="margin-top:12px"><label>Emotional hooks / quotes</label><textarea id="emotional-hooks" placeholder="Key quotes, emotional moments, story angles..."></textarea></div>
+    <div class="field">
+      <label>Call to action(s)</label>
+      <div id="cta-tags" class="tag-input-wrap" onclick="document.getElementById('cta-input').focus()">
+        <input class="tag-input" id="cta-input" placeholder="Donate now, Give today, Match my gift..." onkeydown="addTag(event,'cta-tags','cta-input')">
+      </div>
+    </div>
+    <div class="field" style="margin-top:12px"><label>Creative direction</label><textarea id="dig-creative-dir" placeholder="Visual approach, motion, narrative format..."></textarea></div>
+    <div class="field"><label>Key dates for thematic messaging</label><textarea id="key-dates" placeholder="GivingTuesday, year-end, campaign deadline, match window close..."></textarea></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Email campaigns</div>
+    <div class="field"><label>Series name</label><input type="text" id="email-series" placeholder="e.g. Spring 2025 — Year-end series"></div>
+    <div style="overflow-x:auto;margin-top:12px">
+      <table class="dyn-table" style="min-width:640px;table-layout:fixed">
+        <thead><tr>
+          <th style="width:28px">#</th>
+          <th style="width:110px">Send date</th>
+          <th style="width:110px">Type</th>
+          <th style="width:100px">Audience</th>
+          <th style="width:90px">Signer</th>
+          <th style="width:90px">CTA</th>
+          <th>Key message</th>
+          <th style="width:28px"></th>
+        </tr></thead>
+        <tbody id="email-body"></tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" onclick="addEmailRow()">+ Add email</button>
+  </div>
+  <div class="card">
+    <div class="card-title">SMS campaigns</div>
+    <div style="overflow-x:auto">
+      <table class="dyn-table" style="min-width:500px;table-layout:fixed">
+        <thead><tr>
+          <th style="width:28px">#</th>
+          <th style="width:110px">Send date</th>
+          <th style="width:130px">Audience</th>
+          <th style="width:110px">CTA</th>
+          <th>Message / source</th>
+          <th style="width:28px"></th>
+        </tr></thead>
+        <tbody id="sms-body"></tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" onclick="addSmsRow()">+ Add SMS</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Paid media plan</div>
+    <div style="overflow-x:auto">
+      <table class="dyn-table" style="min-width:500px;table-layout:fixed">
+        <thead><tr>
+          <th style="width:110px">Channel</th>
+          <th style="width:130px">Audience</th>
+          <th style="width:150px">Messaging theme</th>
+          <th>Creative notes</th>
+          <th style="width:28px"></th>
+        </tr></thead>
+        <tbody id="paid-body"></tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" onclick="addPaidRow()">+ Add channel</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Deliverables & specs</div>
+    <div class="grid2">
+      <div class="field"><label>Emails</label><textarea id="spec-email" placeholder="Quantity, sizes, versions..."></textarea></div>
+      <div class="field"><label>SMS</label><textarea id="spec-sms" placeholder="Messages, character limits..."></textarea></div>
+      <div class="field"><label>Social ads</label><textarea id="spec-social" placeholder="Platforms, sizes, formats..."></textarea></div>
+      <div class="field"><label>Display ads</label><textarea id="spec-display" placeholder="Sizes, static/GIF/HTML5..."></textarea></div>
+      <div class="field"><label>Landing pages</label><textarea id="spec-lp" placeholder="URLs, templates, A/B tests..."></textarea></div>
+      <div class="field"><label>Auto-responders / donation forms</label><textarea id="spec-forms" placeholder="Confirmation pages, thank-you emails..."></textarea></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">URLs & landing pages</div>
+    <div style="overflow-x:auto">
+      <table class="dyn-table" style="table-layout:fixed">
+        <thead><tr>
+          <th style="width:150px">Purpose</th>
+          <th>URL</th>
+          <th style="width:110px">Status</th>
+          <th style="width:28px"></th>
+        </tr></thead>
+        <tbody id="url-body"></tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" onclick="addUrlRow()">+ Add URL</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Creative & content notes</div>
+    <div class="grid2">
+      <div class="field"><label>Image needs</label><textarea id="image-needs" placeholder="Photography, illustration, stock..."></textarea></div>
+      <div class="field"><label>Copy versions</label><textarea id="copy-versions" placeholder="Number of versions, languages, personalizations..."></textarea></div>
+      <div class="field"><label>Design notes</label><textarea id="design-notes" placeholder="Brand, layout, accessibility requirements..."></textarea></div>
+      <div class="field"><label>Source material</label><textarea id="source-material" placeholder="Existing assets, brand files, prior creative..."></textarea></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Approvals & timeline</div>
+    <div class="grid3">
+      <div class="field"><label>Strategy approval deadline</label><input type="date" id="strat-deadline"></div>
+      <div class="field"><label>Content submission deadline</label><input type="date" id="content-deadline"></div>
+      <div class="field"><label>Launch date</label><input type="date" id="launch-date"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Post-campaign performance tracking</div>
+    <div style="overflow-x:auto">
+      <table class="dyn-table" style="table-layout:fixed">
+        <thead><tr>
+          <th>Metric</th>
+          <th style="width:130px">Target</th>
+          <th style="width:130px">Actual</th>
+          <th>Notes</th>
+          <th style="width:28px"></th>
+        </tr></thead>
+        <tbody id="perf-body"></tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" onclick="addPerfRow()">+ Add metric</button>
+  </div>
+  <div class="section-nav">
+    <button class="btn" onclick="showSection('dm')">‹ Back</button>
+    <button class="btn btn-primary" onclick="showSection('review')">Review brief ›</button>
+  </div>
+</div>
+
+<!-- SECTION: Review -->
+<div class="section" id="sec-review">
+  <div class="section-header">
+    <div class="section-title">Brief review</div>
+    <div class="section-desc">Summary of everything entered so far</div>
+  </div>
+  <div id="review-content"></div>
+  <div style="display:flex;gap:8px;margin-top:18px;flex-wrap:wrap">
+    <button class="btn" onclick="showSection('digital')">‹ Back</button>
+    <button class="btn btn-primary" onclick="exportBrief()">Export as JSON</button>
+    <button class="btn" onclick="printBrief()">Print / save as PDF</button>
+  </div>
+</div>
+
+</div>
+
+<div class="save-toast" id="save-toast">Draft saved!</div>
+
+<script>
+var tags={};
+
+var sectionLabels={
+  summary:'Project overview',background:'Background',goals:'Goals & objectives',
+  audience:'Audience',strategy:'Strategy',offer:'Offer & positioning',
+  creative:'Creative direction',dm:'Direct mail',digital:'Digital',review:'Review'
+};
+
+function showSection(id){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-sec')===id);
+  });
+  document.getElementById('mode-badge').textContent=sectionLabels[id]||id;
+  updateProgress();
+  if(id==='review') buildReview();
+  window.scrollTo(0,0);
+}
+
+function addTag(e,containerId,inputId){
+  if(e.key!=='Enter'&&e.key!==',') return;
+  e.preventDefault();
+  var input=document.getElementById(inputId);
+  var val=input.value.trim().replace(/,$/,'');
+  if(!val) return;
+  if(!tags[containerId]) tags[containerId]=[];
+  if(tags[containerId].indexOf(val)>-1) return;
+  tags[containerId].push(val);
+  var tag=document.createElement('span');
+  tag.className='tag';
+  tag.setAttribute('data-val',val);
+  tag.innerHTML=val+'<span class="tag-x" onclick="removeTag(\''+containerId+'\',\''+val+'\',this)">&#x00D7;</span>';
+  var wrap=document.getElementById(containerId);
+  wrap.insertBefore(tag,input);
+  input.value='';
+  updateProgress();
+}
+
+function removeTag(containerId,val,el){
+  if(tags[containerId]) tags[containerId]=tags[containerId].filter(function(t){return t!==val;});
+  el.parentElement.remove();
+  updateProgress();
+}
+
+function addTimelineRow(){
+  var tbody=document.getElementById('timeline-body');
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td><input type="text" placeholder="Task description"></td><td><input type="text" placeholder="Owner"></td><td><input type="date"></td><td><input type="date"></td><td><button class="del-btn" onclick="this.closest(\'tr\').remove()">&#x00D7;</button></td>';
+  tbody.appendChild(tr);
+}
+
+function addEmailRow(){
+  var tbody=document.getElementById('email-body');
+  var n=tbody.children.length+1;
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td style="text-align:center;font-size:12px;color:#9ca3af">'+n+'</td><td><input type="date"></td><td><select style="font-size:12px"><option>Appeal</option><option>Cultivation</option><option>Acquisition</option><option>Reactivation</option><option>Stewardship</option><option>Event</option><option>Sustainer</option></select></td><td><input type="text" placeholder="Segment"></td><td><input type="text" placeholder="Signer"></td><td><input type="text" placeholder="CTA"></td><td><input type="text" placeholder="Key message"></td><td><button class="del-btn" onclick="this.closest(\'tr\').remove()">&#x00D7;</button></td>';
+  tbody.appendChild(tr);
+}
+
+function addSmsRow(){
+  var tbody=document.getElementById('sms-body');
+  var n=tbody.children.length+1;
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td style="text-align:center;font-size:12px;color:#9ca3af">'+n+'</td><td><input type="date"></td><td><input type="text" placeholder="Audience"></td><td><input type="text" placeholder="CTA"></td><td><input type="text" placeholder="Message / source"></td><td><button class="del-btn" onclick="this.closest(\'tr\').remove()">&#x00D7;</button></td>';
+  tbody.appendChild(tr);
+}
+
+function addPaidRow(){
+  var tbody=document.getElementById('paid-body');
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td><select style="font-size:12px"><option>Facebook / Instagram</option><option>Google Search</option><option>Display</option><option>YouTube</option><option>CTV / OTT</option><option>TikTok</option><option>Twitter / X</option><option>LinkedIn</option><option>Pinterest</option><option>Other</option></select></td><td><input type="text" placeholder="Audience"></td><td><input type="text" placeholder="Theme"></td><td><input type="text" placeholder="Notes"></td><td><button class="del-btn" onclick="this.closest(\'tr\').remove()">&#x00D7;</button></td>';
+  tbody.appendChild(tr);
+}
+
+function addUrlRow(){
+  var tbody=document.getElementById('url-body');
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td><input type="text" placeholder="Purpose"></td><td><input type="url" placeholder="https://..."></td><td><select style="font-size:12px"><option>Planned</option><option>In progress</option><option>Live</option><option>Archived</option></select></td><td><button class="del-btn" onclick="this.closest(\'tr\').remove()">&#x00D7;</button></td>';
+  tbody.appendChild(tr);
+}
+
+function addPerfRow(){
+  var tbody=document.getElementById('perf-body');
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td><input type="text" placeholder="Metric name"></td><td><input type="text" placeholder="Target"></td><td><input type="text" placeholder="Actual"></td><td><input type="text" placeholder="Notes"></td><td><button class="del-btn" onclick="this.closest(\'tr\').remove()">&#x00D7;</button></td>';
+  tbody.appendChild(tr);
+}
+
+function updateProgress(){
+  var required=[
+    {id:'campaign-name',type:'input'},{id:'why-now',type:'input'},
+    {id:'primary-goal',type:'input'},{id:'key-challenge',type:'input'},
+    {id:'offer-vp',type:'input'},{id:'channel-tags',type:'tags'},{id:'aud-tags',type:'tags'}
+  ];
+  var filled=0;
+  required.forEach(function(f){
+    if(f.type==='tags'){filled+=(tags[f.id]&&tags[f.id].length>0)?1:0;}
+    else{var el=document.getElementById(f.id);filled+=(el&&el.value.trim().length>0)?1:0;}
+  });
+  var pct=Math.round(filled/required.length*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-label').textContent=pct+'% complete';
+}
+
+function v(id){var el=document.getElementById(id);return el?el.value.trim():'';}
+
+function buildReview(){
+  var sections=[
+    {title:'Project overview',fields:[
+      {label:'Campaign name',val:v('campaign-name')},{label:'Job code',val:v('job-code')},
+      {label:'Client / brand',val:v('client-brand')},{label:'Prepared by',val:v('prepared-by')},
+      {label:'Date',val:v('brief-date')},{label:'Channels',val:(tags['channel-tags']||[]).join(', ')},
+    ]},
+    {title:'Background',fields:[
+      {label:'Why now',val:v('why-now')},{label:'Client description',val:v('client-desc')},
+      {label:'Trends / context',val:v('trends')},{label:'Past results',val:v('past-results')},
+    ]},
+    {title:'Goals',fields:[
+      {label:'Primary goal',val:v('primary-goal')},{label:'Secondary goals',val:v('secondary-goals')},
+      {label:'KPIs',val:(tags['kpi-tags']||[]).join(', ')},
+    ]},
+    {title:'Audience',fields:[
+      {label:'Audiences',val:(tags['aud-tags']||[]).join(', ')},{label:'Seg. strategy',val:v('seg-strategy')},
+    ]},
+    {title:'Strategy',fields:[
+      {label:'Key challenge',val:v('key-challenge')},{label:'Creative solution',val:v('creative-solution')},
+    ]},
+    {title:'Offer',fields:[
+      {label:'Value proposition',val:v('offer-vp')},{label:'Tone',val:v('tone')},
+      {label:'Ask strings',val:v('ask-strings')},
+    ]},
+    {title:'Digital',fields:[
+      {label:'Revenue goal',val:v('revenue-goal')},{label:'Launch date',val:v('launch-date')},
+      {label:'CTAs',val:(tags['cta-tags']||[]).join(', ')},{label:'Core tagline',val:v('core-tagline')},
+    ]},
+  ];
+  var html='';
+  sections.forEach(function(sec){
+    var rows=sec.fields.filter(function(f){return f.val;});
+    if(!rows.length) return;
+    html+='<div class="card" style="margin-bottom:12px"><div class="card-title">'+sec.title+'</div>';
+    rows.forEach(function(f){
+      html+='<div class="review-row"><span class="review-label">'+f.label+'</span><span class="review-val">'+f.val+'</span></div>';
+    });
+    html+='</div>';
+  });
+  if(!html) html='<div class="card"><p style="color:#9ca3af;font-size:14px">Nothing filled in yet — go back and complete some sections.</p></div>';
+  document.getElementById('review-content').innerHTML=html;
+}
+
+function saveBrief(){
+  var toast=document.getElementById('save-toast');
+  toast.classList.add('show');
+  setTimeout(function(){toast.classList.remove('show');},2500);
+}
+
+function exportBrief(){
+  var data={
+    meta:{campaignName:v('campaign-name'),jobCode:v('job-code'),client:v('client-brand'),preparedBy:v('prepared-by'),date:v('brief-date'),channels:tags['channel-tags']||[]},
+    background:{whyNow:v('why-now'),clientDesc:v('client-desc'),trends:v('trends'),pastResults:v('past-results')},
+    goals:{primary:v('primary-goal'),secondary:v('secondary-goals'),kpis:tags['kpi-tags']||[]},
+    audience:{segments:tags['aud-tags']||[],insights:v('aud-insights'),segStrategy:v('seg-strategy'),personalization:v('personalization')},
+    strategy:{challenge:v('key-challenge'),solution:v('creative-solution'),communicate:v('communicate')},
+    offer:{vp:v('offer-vp'),supportingMsg:v('supporting-msg'),urgency:v('urgency'),tone:v('tone'),askStrings:v('ask-strings')},
+    creative:{keyMsg:v('key-msg'),keyInsight:v('key-insight'),stories:v('stories-visuals'),assets:tags['asset-tags']||[],mandatories:tags['mandatory-tags']||[],budget:v('budget')},
+    digital:{revenueGoal:v('revenue-goal'),launchDate:v('launch-date'),ctas:tags['cta-tags']||[],tagline:v('core-tagline'),theme:v('key-theme')}
+  };
+  var json=JSON.stringify(data,null,2);
+  var blob=new Blob([json],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=(v('campaign-name')||'creative-brief').replace(/\s+/g,'-').toLowerCase()+'.json';
+  a.click();
+}
+
+function printBrief(){
+  window.print();
+}
+
+addTimelineRow();
+addEmailRow();
+addSmsRow();
+addPaidRow();
+addUrlRow();
+addPerfRow();
+</script>
+</body>
+</html>
