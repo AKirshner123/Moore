@@ -1,0 +1,2706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategic Creative Brief — Moore</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+:root{--red:#D42B2B;--red-h:#b82020;--red-pale:#fde8e8;--black:#0f0f0f;--bg:#F2F3F5;--border:#E0E0E2;--text:#1a1a1a;--muted:#666;--light:#999;--green:#16a34a;--r:10px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--bg);line-height:1.5;}
+.app{max-width:980px;margin:0 auto;padding:20px 18px 80px;}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:12px 20px;background:var(--black);border-radius:var(--r);margin-bottom:14px;}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.moore-wordmark{font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.5px;}
+.moore-wordmark span{color:var(--red);}
+.tb-divider{width:1px;height:22px;background:rgba(255,255,255,.18);}
+.tb-label{font-size:13px;font-weight:700;color:#ffffff;letter-spacing:.06em;}
+.tb-badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;background:rgba(212,43,43,.22);color:#ff9090;border:1px solid rgba(212,43,43,.35);margin-top:3px;}
+.topbar-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.save-ind{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.45);padding:4px 10px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);white-space:nowrap;}
+.sdot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);flex-shrink:0;transition:background .3s;}
+.sdot.unsaved{background:var(--red);animation:blink 1.5s infinite;}
+.sdot.saved{background:#4ade80;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.btn{padding:6px 12px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);font-family:inherit;white-space:nowrap;}
+.btn:hover{background:rgba(255,255,255,.18);}
+.btn-red{background:var(--red);color:#fff;border-color:var(--red);}
+.btn-red:hover{background:var(--red-h);}
+
+/* NAV */
+.nav-wrap{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap;}
+.nav-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--muted);font-family:inherit;white-space:nowrap;}
+.nav-btn:hover{border-color:var(--black);color:var(--black);}
+.nav-btn.active{background:var(--black);color:#fff;border-color:var(--black);}
+.ndot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:#ccc;}
+.ndot.partial{background:#f59e0b;opacity:.8;}
+.ndot.full{background:var(--green);}
+.nav-btn.active .ndot{background:rgba(255,255,255,.35);}
+.nav-btn.active .ndot.partial{background:#fbbf24;opacity:1;}
+.nav-btn.active .ndot.full{background:#86efac;}
+
+/* SECTIONS */
+.section{display:none;}
+.section.active{display:block;}
+
+.sec-eyebrow{font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;}
+.section-title{font-size:17px;font-weight:700;color:var(--black);margin-bottom:2px;}
+.section-desc{font-size:13px;color:var(--muted);margin-bottom:14px;}
+.date-banner{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-left:4px solid var(--red);border-radius:8px;padding:9px 14px;margin-bottom:12px;font-size:13px;color:var(--muted);}
+.date-banner strong{color:var(--black);}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}
+.card-hdr:hover{background:#fafafa;}
+.card-hdr-title{font-size:11px;font-weight:700;color:var(--black);text-transform:uppercase;letter-spacing:.08em;opacity:.6;}
+.chev{font-size:10px;color:var(--light);transition:transform .22s;}
+.card.collapsed .chev{transform:rotate(-90deg);}
+.card-bwrap{display:grid;grid-template-rows:1fr;transition:grid-template-rows .22s ease;}
+.card.collapsed .card-bwrap{grid-template-rows:0fr;}
+.card-binner{overflow:hidden;}
+.card-body{padding:16px 18px;}
+
+/* FIELDS */
+.field{margin-bottom:13px;}
+.field:last-child{margin-bottom:0;}
+.field label{display:block;font-size:13px;font-weight:500;color:#333;margin-bottom:4px;}
+.field input,.field select,.field textarea{width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:7px;font-size:13px;color:var(--text);background:#fff;outline:none;font-family:inherit;transition:border-color .15s,box-shadow .15s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(212,43,43,.1);}
+.field textarea{resize:none;min-height:70px;line-height:1.55;overflow:hidden;}
+.field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
+.req{color:var(--red);margin-left:2px;}
+.hint{font-size:11px;color:var(--light);margin-top:3px;}
+.char-count{font-size:11px;color:var(--light);text-align:right;margin-top:2px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.divider{height:1px;background:#f0f0f0;margin:12px 0;}
+.radio-group{display:flex;gap:14px;flex-wrap:wrap;margin-top:4px;}
+.radio-opt{display:flex;align-items:center;gap:6px;font-size:13px;color:#444;cursor:pointer;}
+.radio-opt input[type=radio]{width:auto;cursor:pointer;accent-color:var(--red);}
+
+/* TAGS */
+.tag-wrap{display:flex;flex-wrap:wrap;gap:5px;padding:6px 8px;border:1px solid #d1d5db;border-radius:7px;min-height:38px;background:#fff;cursor:text;transition:border-color .15s,box-shadow .15s;}
+.tag-wrap:focus-within{border-color:var(--red);box-shadow:0 0 0 3px rgba(212,43,43,.1);}
+.tag{display:inline-flex;align-items:center;gap:4px;background:var(--red-pale);color:#921c1c;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:500;}
+.tag .tx{cursor:pointer;opacity:.55;font-size:13px;line-height:1;border:none;background:none;color:inherit;padding:0;}
+.tag .tx:hover{opacity:1;}
+.tag-inp{border:none;outline:none;font-size:13px;background:transparent;color:var(--text);min-width:90px;flex:1;font-family:inherit;}
+
+/* TABLES */
+.tbl-scroll{overflow-x:auto;}
+.dyn-table{width:100%;border-collapse:collapse;font-size:13px;}
+.dyn-table th{font-size:11px;font-weight:600;color:var(--muted);padding:7px 8px;border-bottom:1px solid var(--border);text-align:left;background:#f8f8f8;white-space:nowrap;}
+.dyn-table td{padding:5px 4px;vertical-align:top;border-bottom:1px solid #f3f3f3;}
+.dyn-table td input,.dyn-table td select{width:100%;padding:5px 7px;font-size:12px;border:1px solid #d1d5db;border-radius:6px;color:var(--text);background:#fff;font-family:inherit;outline:none;}
+.dyn-table td input:focus,.dyn-table td select:focus{border-color:var(--red);box-shadow:0 0 0 2px rgba(212,43,43,.08);}
+.del-btn{background:none;border:none;cursor:pointer;color:#ccc;font-size:17px;padding:0 4px;line-height:1;}
+.del-btn:hover{color:#dc2626;}
+.add-btn{margin-top:8px;font-size:12px;color:var(--red);background:none;border:none;cursor:pointer;padding:4px 0;font-weight:600;font-family:inherit;}
+.add-btn:hover{color:var(--red-h);}
+
+/* ATTACHMENTS */
+.drop-zone{border:2px dashed #ccc;border-radius:var(--r);padding:36px 20px;text-align:center;cursor:pointer;background:#fafafa;}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--red);background:#fff8f8;}
+.dz-icon{font-size:36px;opacity:.3;margin-bottom:10px;}
+.dz-text{font-size:14px;color:var(--muted);line-height:1.7;}
+.dz-text strong{color:var(--red);}
+.att-list{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+.att-item{display:flex;gap:12px;align-items:flex-start;padding:12px;background:#f9f9f9;border:1px solid var(--border);border-radius:8px;}
+.att-thumb{width:50px;height:50px;border-radius:6px;object-fit:cover;flex-shrink:0;border:1px solid var(--border);}
+.att-icon{width:50px;height:50px;border-radius:6px;background:#f0f0f0;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.att-info{flex:1;min-width:0;}
+.att-name{font-size:13px;font-weight:600;color:var(--black);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.att-size{font-size:11px;color:var(--light);margin-top:1px;}
+.att-desc{margin-top:7px;width:100%;padding:5px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;color:#444;font-family:inherit;outline:none;resize:none;overflow:hidden;min-height:34px;}
+.att-desc:focus{border-color:var(--red);}
+.att-rm{background:none;border:none;cursor:pointer;color:#ccc;font-size:18px;padding:0;flex-shrink:0;line-height:1;}
+.att-rm:hover{color:#dc2626;}
+.att-badge{display:none;align-items:center;gap:5px;font-size:12px;color:var(--muted);margin-top:6px;}
+
+/* SECTION NAV */
+.sec-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--border);}
+.btn-nav{padding:7px 15px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text);font-family:inherit;}
+.btn-nav:hover{border-color:#aaa;}
+.btn-nav-p{background:var(--black);color:#fff;border-color:var(--black);}
+.btn-nav-p:hover{background:#333;}
+
+/* REVIEW */
+.health-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:16px;}
+.health-title{font-size:13px;font-weight:700;color:var(--black);margin-bottom:3px;}
+.health-sub{font-size:12px;color:var(--muted);margin-bottom:14px;}
+.health-main{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.health-bar{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
+.health-fill{height:100%;border-radius:4px;background:var(--red);transition:width .5s ease;}
+.health-pct{font-size:18px;font-weight:700;color:var(--black);width:44px;text-align:right;}
+.health-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;}
+.hitem{background:var(--bg);border-radius:7px;padding:10px 12px;cursor:pointer;border:1px solid transparent;}
+.hitem:hover{border-color:var(--red);background:#fff;}
+.hitem h5{font-size:11px;font-weight:600;color:var(--black);margin-bottom:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.hitem-bar{height:3px;background:#e0e0e0;border-radius:2px;overflow:hidden;margin-bottom:3px;}
+.hitem-fill{height:100%;border-radius:2px;}
+.hitem-pct{font-size:10px;color:var(--muted);}
+.rev-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden;}
+.rev-head{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:#f8f8f8;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--black);text-transform:uppercase;letter-spacing:.07em;cursor:pointer;}
+.rev-head:hover{background:var(--red-pale);color:var(--red-h);}
+.edit-lnk{font-size:10px;color:var(--red);font-weight:500;text-transform:none;letter-spacing:0;}
+.rev-row{display:flex;padding:7px 14px;border-bottom:1px solid #f3f3f3;}
+.rev-row:last-child{border-bottom:none;}
+.rev-label{font-size:12px;color:var(--muted);width:170px;flex-shrink:0;padding-top:1px;}
+.rev-val{font-size:13px;color:var(--text);font-weight:500;flex:1;white-space:pre-wrap;line-height:1.5;}
+
+/* KEYBOARD MODAL */
+.kbd-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;}
+.kbd-bg.open{opacity:1;pointer-events:all;}
+.kbd-modal{background:#fff;border-radius:14px;padding:26px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.18);transform:translateY(-8px);transition:transform .2s;}
+.kbd-bg.open .kbd-modal{transform:translateY(0);}
+.kbd-modal h3{font-size:16px;font-weight:700;color:var(--black);margin-bottom:14px;}
+.krow{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f3f3f3;}
+.krow:last-of-type{border-bottom:none;}
+.klabel{font-size:13px;color:var(--muted);}
+.kkeys{display:inline-flex;gap:4px;align-items:center;font-size:12px;color:var(--muted);}
+.kk{display:inline-block;padding:2px 7px;border:1px solid #ccc;border-radius:5px;font-size:11px;font-weight:600;color:var(--black);background:#f8f8f8;font-family:monospace;}
+.kbd-close-btn{margin-top:18px;width:100%;padding:9px;background:var(--black);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+
+/* TOASTS */
+.toast-wrap{position:fixed;bottom:18px;right:18px;display:flex;flex-direction:column-reverse;gap:8px;z-index:9998;pointer-events:none;}
+.toast{padding:11px 16px;border-radius:9px;font-size:13px;font-weight:500;color:#fff;box-shadow:0 4px 20px rgba(0,0,0,.14);opacity:0;transform:translateX(14px);transition:all .25s;max-width:260px;}
+.toast.show{opacity:1;transform:translateX(0);}
+.t-green{background:#15803d;}
+.t-dark{background:var(--black);}
+.t-red{background:var(--red);}
+
+
+/* ── CHATBOT ─────────────────────────────────────────────────── */
+.cb-bubble{position:fixed;bottom:22px;right:22px;z-index:8000;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.cb-btn{width:54px;height:54px;border-radius:50%;background:var(--black);border:3px solid var(--red);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.25);transition:transform .2s,box-shadow .2s;flex-shrink:0;position:relative;}
+.cb-btn:hover{transform:scale(1.07);box-shadow:0 6px 28px rgba(0,0,0,.3);}
+.cb-pulse{position:absolute;top:-3px;right:-3px;width:13px;height:13px;background:var(--red);border-radius:50%;border:2px solid var(--bg);animation:cbpulse 2.5s infinite;}
+@keyframes cbpulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.35);opacity:.6;}}
+.cb-panel{width:340px;background:#fff;border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.18);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;height:480px;transform:scale(.92) translateY(10px);opacity:0;pointer-events:none;transition:all .22s ease;transform-origin:bottom right;}
+.cb-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
+.cb-head{background:var(--black);padding:13px 15px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.cb-head-icon{font-size:17px;}
+.cb-head-text h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:1px;}
+.cb-head-text p{font-size:11px;color:rgba(255,255,255,.45);}
+.cb-head-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.5);font-size:19px;cursor:pointer;padding:0;line-height:1;}
+.cb-head-close:hover{color:#fff;}
+.cb-messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;}
+.cb-msg{max-width:90%;display:flex;flex-direction:column;gap:3px;}
+.cb-msg.bot{align-self:flex-start;}.cb-msg.user{align-self:flex-end;}
+.cb-bubble-msg{padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.55;}
+.cb-msg.bot .cb-bubble-msg{background:#f3f3f5;color:var(--text);border-bottom-left-radius:4px;}
+.cb-msg.user .cb-bubble-msg{background:var(--black);color:#fff;border-bottom-right-radius:4px;}
+.cb-bubble-msg a{color:var(--red);cursor:pointer;text-decoration:underline;}
+.cb-typing{display:flex;align-items:center;gap:4px;padding:10px 12px;background:#f3f3f5;border-radius:12px;border-bottom-left-radius:4px;width:fit-content;}
+.cb-typing span{width:6px;height:6px;background:#bbb;border-radius:50%;animation:cbdot .9s infinite both;}
+.cb-typing span:nth-child(2){animation-delay:.15s;}.cb-typing span:nth-child(3){animation-delay:.3s;}
+@keyframes cbdot{0%,80%,100%{transform:scale(.65);opacity:.4;}40%{transform:scale(1);opacity:1;}}
+.cb-fields-tag{font-size:11px;padding:5px 9px;background:#fff0f0;color:#921c1c;border-radius:7px;border:1px solid rgba(212,43,43,.2);margin-top:2px;}
+.cb-foot{padding:9px 11px;border-top:1px solid var(--border);display:flex;gap:7px;flex-shrink:0;align-items:flex-end;}
+.cb-input{flex:1;border:1px solid #d1d5db;border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;resize:none;max-height:80px;overflow-y:auto;line-height:1.4;}
+.cb-input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(212,43,43,.1);}
+.cb-send{width:32px;height:32px;background:var(--black);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cb-send:hover{background:#333;}.cb-send:disabled{opacity:.35;cursor:default;}
+.cb-attach{background:none;border:none;cursor:pointer;font-size:16px;color:var(--muted);padding:0 2px;flex-shrink:0;}
+.cb-attach:hover{color:var(--red);}
+
+/* CLIENT SELECTOR */
+.client-selector-wrap{display:flex;align-items:center;gap:8px;margin-bottom:14px;background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:10px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.client-selector-label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;}
+.client-selector-select{flex:1;max-width:320px;padding:7px 28px 7px 10px;border:1px solid #d1d5db;border-radius:7px;font-size:13px;font-weight:500;color:var(--text);background:#fff;font-family:inherit;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;transition:border-color .15s,box-shadow .15s;}
+.client-selector-select:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(212,43,43,.1);}
+.client-demo-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:rgba(212,43,43,.1);color:var(--red);border:1px solid rgba(212,43,43,.2);white-space:nowrap;letter-spacing:.04em;}
+.tab-unavailable{display:none;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center;gap:10px;}
+.tab-unavailable-icon{font-size:36px;opacity:.3;}
+.tab-unavailable-text{font-size:14px;color:var(--muted);font-weight:500;}
+.tab-unavailable-sub{font-size:12px;color:var(--light);}
+.section.tab-locked .tab-unavailable{display:flex;}
+.section.tab-locked .card,.section.tab-locked .prefill-card,.section.tab-locked .date-banner{display:none!important;}
+.section.tab-locked .sec-eyebrow,.section.tab-locked .section-title,.section.tab-locked .section-desc{display:none;}
+.section.tab-locked .sec-nav{display:flex !important;}
+
+/* CLIENT SWITCH MODAL */
+.csw-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;}
+.csw-bg.open{opacity:1;pointer-events:all;}
+.csw-modal{background:#fff;border-radius:14px;padding:28px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.22);transform:translateY(-8px);transition:transform .2s;}
+.csw-bg.open .csw-modal{transform:translateY(0);}
+.csw-icon{font-size:32px;margin-bottom:12px;}
+.csw-modal h3{font-size:17px;font-weight:700;color:var(--black);margin-bottom:8px;}
+.csw-modal p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:6px;}
+.csw-modal p strong{color:var(--black);}
+.csw-warn{font-size:12px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:7px;padding:9px 12px;margin:14px 0;line-height:1.55;}
+.csw-actions{display:flex;gap:8px;margin-top:18px;justify-content:flex-end;}
+.csw-cancel{padding:8px 16px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text);font-family:inherit;}
+.csw-cancel:hover{border-color:#aaa;}
+.csw-confirm{padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:var(--red);color:#fff;font-family:inherit;}
+.csw-confirm:hover{background:var(--red-h);}
+
+/* ── COLLABORATION BAR ───────────────────────────────────────────── */
+.collab-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:10px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);flex-wrap:wrap;}
+.collab-bar-label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;margin-right:4px;}
+.collab-avatars{display:flex;align-items:center;margin-right:4px;}
+.collab-av{width:28px;height:28px;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;margin-left:-8px;flex-shrink:0;}
+.collab-av:first-child{margin-left:0;}
+.collab-av-more{background:#e0e0e0;color:#555;font-size:10px;}
+.collab-concept{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:#fffbeb;color:#92400e;border:1px solid #fde68a;white-space:nowrap;letter-spacing:.03em;margin-left:auto;}
+.btn-collab{padding:6px 12px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text);font-family:inherit;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;transition:all .15s;}
+.btn-collab:hover{border-color:#aaa;background:#fafafa;}
+.btn-collab-primary{background:var(--black);color:#fff;border-color:var(--black);}
+.btn-collab-primary:hover{background:#333;}
+
+/* ── SHARE MODAL ──────────────────────────────────────────────────── */
+.share-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;}
+.share-bg.open{opacity:1;pointer-events:all;}
+.share-modal{background:#fff;border-radius:14px;padding:0;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.22);transform:translateY(-8px);transition:transform .2s;overflow:hidden;}
+.share-bg.open .share-modal{transform:translateY(0);}
+.share-head{background:var(--black);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;}
+.share-head h3{font-size:15px;font-weight:700;color:#fff;}
+.share-head-close{background:none;border:none;color:rgba(255,255,255,.5);font-size:20px;cursor:pointer;padding:0;line-height:1;}
+.share-head-close:hover{color:#fff;}
+.share-body{padding:22px;}
+.share-concept-banner{display:flex;gap:10px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:11px 13px;margin-bottom:18px;font-size:12px;color:#78350f;line-height:1.55;}
+.share-concept-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.share-warn{display:flex;gap:10px;align-items:flex-start;background:var(--red-pale);border:1px solid rgba(212,43,43,.25);border-radius:8px;padding:11px 13px;margin-bottom:18px;font-size:12px;color:#7f1d1d;line-height:1.55;}
+.share-warn-icon{font-size:16px;flex-shrink:0;}
+.share-label{font-size:12px;font-weight:600;color:#333;margin-bottom:6px;}
+.share-link-row{display:flex;gap:6px;margin-bottom:16px;}
+.share-link-input{flex:1;padding:8px 11px;border:1px solid #d1d5db;border-radius:7px;font-size:12px;color:var(--muted);background:#f8f8f8;font-family:monospace;outline:none;}
+.share-copy-btn{padding:8px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text);font-family:inherit;white-space:nowrap;transition:all .15s;}
+.share-copy-btn:hover{background:var(--black);color:#fff;border-color:var(--black);}
+.share-perms{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.share-perm{display:flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--border);border-radius:7px;font-size:12px;cursor:pointer;transition:all .15s;background:#fff;}
+.share-perm:hover{border-color:var(--black);}
+.share-perm.active{border-color:var(--red);background:var(--red-pale);color:#921c1c;}
+.share-perm input[type=radio]{accent-color:var(--red);width:auto;}
+.share-divider{height:1px;background:#f0f0f0;margin:16px 0;}
+.share-invite-row{display:flex;gap:6px;}
+.share-invite-input{flex:1;padding:8px 11px;border:1px solid #d1d5db;border-radius:7px;font-size:13px;color:var(--text);background:#fff;font-family:inherit;outline:none;}
+.share-invite-input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(212,43,43,.1);}
+.share-invite-btn{padding:8px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:var(--red);color:#fff;font-family:inherit;}
+.share-invite-btn:hover{background:var(--red-h);}
+.share-collaborators{margin-top:12px;display:flex;flex-direction:column;gap:6px;}
+.share-collab-row{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:7px;background:#f8f8f8;}
+.share-collab-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.share-collab-info{flex:1;min-width:0;}
+.share-collab-name{font-size:13px;font-weight:600;color:var(--black);}
+.share-collab-email{font-size:11px;color:var(--muted);}
+.share-collab-role{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:#e0e0e0;color:#555;}
+.share-foot{padding:16px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;}
+.share-done{padding:8px 20px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:var(--black);color:#fff;font-family:inherit;}
+
+/* ── NOTES PANEL ─────────────────────────────────────────────────── */
+.notes-panel-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9500;opacity:0;pointer-events:none;transition:opacity .2s;}
+.notes-panel-bg.open{opacity:1;pointer-events:all;}
+.notes-panel{position:fixed;top:0;right:0;bottom:0;width:360px;background:#fff;box-shadow:-4px 0 30px rgba(0,0,0,.15);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease;z-index:9600;pointer-events:none;}
+.notes-panel.open{transform:translateX(0);pointer-events:all;}
+.notes-head{background:var(--black);padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.notes-head-icon{font-size:16px;}
+.notes-head-text h4{font-size:13px;font-weight:700;color:#fff;}
+.notes-head-text p{font-size:11px;color:rgba(255,255,255,.4);}
+.notes-head-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.5);font-size:20px;cursor:pointer;padding:0;line-height:1;}
+.notes-concept-bar{background:#fffbeb;border-bottom:1px solid #fde68a;padding:8px 14px;font-size:11px;color:#78350f;display:flex;gap:6px;align-items:flex-start;line-height:1.5;flex-shrink:0;}
+.teams-badge{display:inline-flex;align-items:center;gap:5px;background:#5558af;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.02em;flex-shrink:0;}
+.notes-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;}
+.notes-tab{flex:1;padding:9px 0;font-size:12px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;transition:all .15s;}
+.notes-tab.active{color:var(--black);border-bottom-color:var(--red);}
+.notes-body{flex:1;overflow-y:auto;padding:14px;}
+.notes-tab-pane{display:none;}.notes-tab-pane.active{display:block;}
+.note-thread{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.note-item{display:flex;gap:9px;align-items:flex-start;}
+.note-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;margin-top:2px;}
+.note-content{flex:1;min-width:0;}
+.note-meta{display:flex;align-items:baseline;gap:6px;margin-bottom:3px;}
+.note-author{font-size:12px;font-weight:700;color:var(--black);}
+.note-time{font-size:11px;color:var(--light);}
+.note-section-tag{font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;background:var(--bg);color:var(--muted);border:1px solid var(--border);}
+.note-bubble{background:#f3f3f5;border-radius:0 10px 10px 10px;padding:9px 12px;font-size:13px;color:var(--text);line-height:1.5;}
+.note-mention{color:var(--red);font-weight:600;}
+.note-section-ref{color:#2563eb;font-weight:500;font-size:12px;}
+.note-reactions{display:flex;gap:4px;margin-top:5px;}
+.note-react{font-size:12px;padding:2px 7px;border-radius:20px;background:#f3f3f5;border:1px solid var(--border);cursor:pointer;transition:all .15s;}
+.note-react:hover{background:var(--red-pale);border-color:rgba(212,43,43,.3);}
+.notes-input-area{border-top:1px solid var(--border);padding:12px;flex-shrink:0;}
+.notes-input-wrap{border:1px solid #d1d5db;border-radius:9px;overflow:hidden;transition:border-color .15s,box-shadow .15s;}
+.notes-input-wrap:focus-within{border-color:var(--red);box-shadow:0 0 0 3px rgba(212,43,43,.1);}
+.notes-textarea{width:100%;padding:9px 11px;font-size:13px;font-family:inherit;border:none;outline:none;resize:none;min-height:60px;color:var(--text);}
+.notes-input-footer{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:#f8f8f8;border-top:1px solid #f0f0f0;}
+.notes-hint{font-size:11px;color:var(--light);}
+.notes-hint kbd{background:#e8e8e8;border:1px solid #ccc;border-radius:3px;padding:1px 4px;font-size:10px;font-family:monospace;}
+.notes-send{padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:var(--black);color:#fff;font-family:inherit;}
+.notes-send:hover{background:#333;}
+.mention-popup{position:absolute;background:#fff;border:1px solid var(--border);border-radius:9px;box-shadow:0 8px 24px rgba(0,0,0,.12);overflow:hidden;z-index:9999;min-width:200px;display:none;}
+.mention-popup.show{display:block;}
+.mention-item{display:flex;align-items:center;gap:9px;padding:8px 12px;cursor:pointer;transition:background .12s;}
+.mention-item:hover,.mention-item.selected{background:var(--red-pale);}
+.mention-item-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.mention-item-name{font-size:13px;font-weight:600;color:var(--black);}
+.mention-item-role{font-size:11px;color:var(--muted);}
+
+/* ── UPDATES FEED ─────────────────────────────────────────────────── */
+.updates-empty{text-align:center;padding:32px 0;color:var(--light);font-size:13px;}
+.update-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f3f3f3;}
+.update-item:last-child{border-bottom:none;}
+.update-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;margin-top:2px;}
+.update-content{flex:1;min-width:0;}
+.update-meta{font-size:12px;color:var(--muted);margin-bottom:3px;}
+.update-meta strong{color:var(--black);}
+.update-text{font-size:13px;color:var(--text);line-height:1.5;background:#f8f8f8;border-radius:7px;padding:8px 11px;border-left:3px solid var(--red);}
+.update-time{font-size:11px;color:var(--light);margin-top:4px;}
+
+/* ── BRIEF OF BRIEF MODAL ─────────────────────────────────────────── */
+.bob-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10200;display:flex;align-items:center;justify-content:center;padding:24px 16px;opacity:0;pointer-events:none;transition:opacity .22s;}
+.bob-bg.open{opacity:1;pointer-events:all;}
+.bob-modal{background:#fff;border-radius:16px;width:100%;max-width:600px;box-shadow:0 24px 80px rgba(0,0,0,.25);transform:translateY(-10px);transition:transform .22s;overflow:hidden;display:flex;flex-direction:column;max-height:90vh;}
+.bob-bg.open .bob-modal{transform:translateY(0);}
+.bob-head{background:var(--black);padding:18px 22px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-shrink:0;}
+.bob-head-left h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;}
+.bob-head-left p{font-size:11px;color:rgba(255,255,255,.4);line-height:1.4;}
+.bob-head-close{background:none;border:none;color:rgba(255,255,255,.45);font-size:20px;cursor:pointer;padding:0;line-height:1;flex-shrink:0;}
+.bob-head-close:hover{color:#fff;}
+.bob-concept-bar{background:#fffbeb;border-bottom:1px solid #fde68a;padding:9px 20px;font-size:11px;color:#78350f;display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.bob-body{padding:24px;overflow-y:auto;flex:1;}
+.bob-client-pill{display:inline-flex;align-items:center;gap:6px;background:var(--red-pale);color:#921c1c;border:1px solid rgba(212,43,43,.25);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;margin-bottom:16px;}
+.bob-section{margin-bottom:20px;}
+.bob-section:last-of-type{margin-bottom:0;}
+.bob-section-label{font-size:10px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.bob-paragraph{font-size:13px;color:var(--text);line-height:1.7;background:#f8f8f8;border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:11px 14px;}
+.bob-bullets{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;}
+.bob-bullets li{font-size:13px;color:var(--text);line-height:1.6;padding:8px 12px;background:#f8f8f8;border-radius:7px;border-left:3px solid var(--black);display:flex;gap:8px;}
+.bob-bullets li::before{content:"→";color:var(--red);font-weight:700;flex-shrink:0;}
+.bob-divider{height:1px;background:#f0f0f0;margin:18px 0;}
+.bob-foot{padding:14px 22px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;flex-wrap:wrap;gap:8px;}
+.bob-foot-note{font-size:11px;color:var(--light);}
+.bob-foot-note strong{color:var(--muted);}
+.bob-export-btn{padding:8px 18px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:var(--red);color:#fff;font-family:inherit;display:inline-flex;align-items:center;gap:6px;}
+.bob-export-btn:hover{background:var(--red-h);}
+
+/* ── DAM INTEGRATION ────────────────────────────────────────────── */
+.dam-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.dam-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text);font-family:inherit;transition:all .15s;}
+.dam-btn:hover{border-color:var(--black);background:#fafafa;}
+.dam-btn-icon{font-size:15px;}
+.dam-concept-note{font-size:11px;color:var(--muted);background:#f8f8f8;border:1px solid var(--border);border-radius:7px;padding:8px 12px;margin-bottom:12px;line-height:1.6;}
+.dam-concept-note strong{color:var(--black);}
+.dam-concept-note code{font-size:10px;background:#e8e8e8;padding:1px 5px;border-radius:3px;font-family:monospace;}
+.dam-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;}
+.dam-modal-bg.open{opacity:1;pointer-events:all;}
+.dam-modal{background:#fff;border-radius:14px;width:100%;max-width:500px;box-shadow:0 20px 60px rgba(0,0,0,.22);transform:translateY(-8px);transition:transform .2s;overflow:hidden;}
+.dam-modal-bg.open .dam-modal{transform:translateY(0);}
+.dam-modal-head{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.dam-modal-head h3{font-size:14px;font-weight:700;color:var(--black);}
+.dam-modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--light);padding:0;line-height:1;}
+.dam-modal-close:hover{color:var(--black);}
+.dam-modal-body{padding:18px 20px;}
+.dam-concept-banner{background:#fffbeb;border:1px solid #fde68a;border-radius:7px;padding:10px 12px;font-size:12px;color:#78350f;line-height:1.55;margin-bottom:14px;}
+.dam-search-row{display:flex;gap:6px;margin-bottom:12px;}
+.dam-search-inp{flex:1;padding:8px 11px;border:1px solid #d1d5db;border-radius:7px;font-size:13px;font-family:inherit;outline:none;}
+.dam-search-inp:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(212,43,43,.1);}
+.dam-search-btn{padding:8px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:var(--black);color:#fff;font-family:inherit;}
+.dam-results{display:flex;flex-direction:column;gap:6px;max-height:260px;overflow-y:auto;}
+.dam-result-item{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--border);border-radius:7px;cursor:pointer;transition:all .15s;}
+.dam-result-item:hover{border-color:var(--red);background:var(--red-pale);}
+.dam-result-thumb{width:38px;height:38px;border-radius:5px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.dam-result-info{flex:1;min-width:0;}
+.dam-result-name{font-size:12px;font-weight:600;color:var(--black);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dam-result-meta{font-size:11px;color:var(--muted);}
+.dam-result-add{font-size:11px;font-weight:600;color:var(--red);flex-shrink:0;}
+.dam-dev-note{margin-top:14px;background:#f0f4ff;border:1px solid #c7d7fd;border-radius:7px;padding:10px 12px;font-size:11px;color:#1e3a8a;line-height:1.6;}
+.dam-dev-note strong{display:block;margin-bottom:3px;}
+/* Required links table */
+.link-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+.link-table th{font-size:11px;font-weight:600;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--border);text-align:left;background:#f8f8f8;}
+.link-table td{padding:5px 4px;vertical-align:top;border-bottom:1px solid #f3f3f3;}
+.link-table td input,.link-table td select{width:100%;padding:5px 7px;font-size:12px;border:1px solid #d1d5db;border-radius:6px;color:var(--text);background:#fff;font-family:inherit;outline:none;}
+.link-table td input:focus,.link-table td select:focus{border-color:var(--red);}
+
+/* PRINT */
+@media print{
+  .topbar,.nav-wrap,.sec-nav,.toast-wrap,.kbd-bg{display:none!important;}
+  .app{padding:0;max-width:100%;}
+  .section{display:block!important;margin-bottom:28px;}
+  .card-bwrap{grid-template-rows:1fr!important;}
+  .del-btn,.add-btn{display:none;}
+  body{background:#fff;}
+}
+@media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr;}.health-grid{grid-template-columns:1fr 1fr;}}
+
+
+/* OVERVIEW PREFILL CARD */
+.prefill-card{background:linear-gradient(135deg,#0f0f0f 0%,#1c1c1c 100%);border:1px solid #333;border-radius:var(--r);padding:18px;margin-bottom:12px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+.prefill-card-icon{font-size:28px;flex-shrink:0;}
+.prefill-card-text{flex:1;min-width:180px;}
+.prefill-card-text h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px;}
+.prefill-card-text p{font-size:12px;color:rgba(255,255,255,.8);line-height:1.5;}
+.prefill-card-text p strong{color:#fff;}
+.prefill-upload-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0;transition:background .15s;}
+.prefill-upload-btn:hover{background:var(--red-h);}
+.prefill-upload-btn:disabled{opacity:.6;cursor:default;}
+.prefill-upload-btn .spin{display:inline-block;animation:spin .7s linear infinite;}
+.prefill-supported{font-size:11px;color:rgba(255,255,255,.3);margin-top:6px;}
+
+/* PREFILL */
+.att-actions{display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap;}
+.att-prefill{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #d42b2b33;background:#fff0f0;color:var(--red);font-family:inherit;transition:all .15s;}
+.att-prefill:hover{background:var(--red-pale);border-color:var(--red);}
+.att-prefill:disabled{opacity:.5;cursor:default;}
+.att-prefill .spin{display:inline-block;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* PREFILL MODAL */
+.pf-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10000;display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;opacity:0;pointer-events:none;transition:opacity .2s;overflow-y:auto;}
+.pf-bg.open{opacity:1;pointer-events:all;}
+.pf-modal{background:#fff;border-radius:14px;width:100%;max-width:580px;box-shadow:0 24px 80px rgba(0,0,0,.2);transform:translateY(-10px);transition:transform .2s;}
+.pf-bg.open .pf-modal{transform:translateY(0);}
+.pf-head{padding:20px 22px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.pf-head h3{font-size:16px;font-weight:700;color:#0f0f0f;}
+.pf-head p{font-size:13px;color:#444;margin-top:3px;}
+.pf-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--light);padding:0;line-height:1;flex-shrink:0;}
+.pf-close:hover{color:var(--black);}
+.pf-body{padding:16px 22px;max-height:55vh;overflow-y:auto;}
+.pf-loading{display:flex;flex-direction:column;align-items:center;gap:12px;padding:32px 0;color:var(--muted);font-size:14px;}
+.pf-spinner{width:32px;height:32px;border:3px solid #f0f0f0;border-top-color:var(--red);border-radius:50%;animation:spin .7s linear infinite;}
+.pf-field{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #f3f3f3;}
+.pf-field:last-child{border-bottom:none;}
+.pf-field input[type=checkbox]{margin-top:3px;accent-color:var(--red);width:15px;height:15px;flex-shrink:0;cursor:pointer;}
+.pf-field-info{flex:1;min-width:0;}
+.pf-field-label{font-size:13px;font-weight:700;color:#111;margin-bottom:5px;}
+.pf-field-val{font-size:13px;color:#1a1a1a;white-space:pre-wrap;line-height:1.6;background:#f7f7f7;border-radius:6px;padding:8px 10px;border:1px solid #e8e8e8;}
+.pf-field-cur{font-size:12px;color:#777;margin-top:5px;font-style:italic;}
+.pf-none{padding:24px 0;text-align:center;color:var(--muted);font-size:14px;}
+.pf-foot{padding:16px 22px;display:flex;gap:8px;border-top:1px solid var(--border);}
+.pf-apply{flex:1;padding:9px;background:var(--black);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;}
+.pf-apply:hover{background:#333;}
+.pf-apply:disabled{opacity:.5;cursor:default;}
+.pf-cancel{padding:9px 16px;background:#fff;color:var(--text);border:1px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;}
+.pf-select-all{font-size:12px;color:var(--red);background:none;border:none;cursor:pointer;font-family:inherit;padding:0;margin-left:auto;}
+.pf-select-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.pf-count{font-size:12px;color:#333;font-weight:500;}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="moore-wordmark">Moore<span>.</span></div>
+    <div class="tb-divider"></div>
+    <div>
+      <div class="tb-label">Strategic Creative Brief</div>
+      <div class="tb-badge" id="mode-badge">Project overview</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="save-ind"><div class="sdot" id="sdot"></div><span id="stext">No changes</span></div>
+    <button class="btn" id="btn-shortcuts">⌨ Shortcuts</button>
+    <button class="btn" id="btn-json">Export JSON</button>
+    <button class="btn" id="btn-export">Export Brief</button>
+    <button class="btn" id="btn-print">Print</button>
+    <button class="btn btn-red" id="btn-save">Save draft</button>
+  </div>
+</div>
+
+<!-- CLIENT SELECTOR -->
+<div class="client-selector-wrap">
+  <span class="client-selector-label">Client</span>
+  <select class="client-selector-select" id="client-selector">
+    <option value="">— Select a client —</option>
+    <option value="makeawish">Make-A-Wish (Demo)</option>
+    <option value="rmh">Ronald McDonald House (Demo)</option>
+    <option value="acs">American Cancer Society (Demo)</option>
+  </select>
+  <span class="client-demo-tag">DEMO</span>
+</div>
+
+<!-- COLLABORATION BAR -->
+<div class="collab-bar">
+  <span class="collab-bar-label">Collaborators</span>
+  <div class="collab-avatars">
+    <div class="collab-av" style="background:#D42B2B" title="Sarah M.">SM</div>
+    <div class="collab-av" style="background:#2563eb" title="James R.">JR</div>
+    <div class="collab-av" style="background:#16a34a" title="Dana K.">DK</div>
+    <div class="collab-av collab-av-more" title="2 more">+2</div>
+  </div>
+  <button class="btn-collab btn-collab-primary" id="btn-share">🔗 Share Brief</button>
+  <button class="btn-collab" id="btn-notes">💬 Notes &amp; Comments</button>
+  <button class="btn-collab" id="btn-updates">📣 Team Updates</button>
+  <span class="collab-concept">⚠ Concept — requires development</span>
+</div>
+
+<!-- SHARE MODAL -->
+<div class="share-bg" id="share-bg">
+  <div class="share-modal">
+    <div class="share-head">
+      <h3>🔗 Share this brief</h3>
+      <button class="share-head-close" id="share-close">✕</button>
+    </div>
+    <div class="share-body">
+      <div class="share-concept-banner">
+        <span class="share-concept-icon">⚠️</span>
+        <span><strong>Concept feature — requires development.</strong> In a production build, this would generate a real shareable link backed by a database. This demo shows the intended experience only.</span>
+      </div>
+      <div class="share-warn">
+        <span class="share-warn-icon">✏️</span>
+        <span><strong>Heads up:</strong> Anyone with this link and edit access will be able to modify all fields in this brief. Share only with intended contributors.</span>
+      </div>
+      <div class="share-label">Shareable link</div>
+      <div class="share-link-row">
+        <input class="share-link-input" id="share-link-val" readonly value="https://moore.briefs.com/b/spring-appeal-2025-xk7f2">
+        <button class="share-copy-btn" id="share-copy-btn">Copy</button>
+      </div>
+      <div class="share-label">Access level</div>
+      <div class="share-perms">
+        <label class="share-perm active"><input type="radio" name="share-perm" value="edit" checked> ✏️ Can edit</label>
+        <label class="share-perm"><input type="radio" name="share-perm" value="comment"> 💬 Comment only</label>
+        <label class="share-perm"><input type="radio" name="share-perm" value="view"> 👁 View only</label>
+      </div>
+      <div class="share-divider"></div>
+      <div class="share-label">Invite by email</div>
+      <div class="share-invite-row">
+        <input class="share-invite-input" placeholder="name@example.com" id="share-invite-input">
+        <button class="share-invite-btn" id="share-invite-btn">Invite</button>
+      </div>
+      <div class="share-collaborators" id="share-collabs">
+        <div class="share-collab-row">
+          <div class="share-collab-av" style="background:#D42B2B">SM</div>
+          <div class="share-collab-info"><div class="share-collab-name">Sarah Martinez</div><div class="share-collab-email">s.martinez@moore.com</div></div>
+          <span class="share-collab-role">Owner</span>
+        </div>
+        <div class="share-collab-row">
+          <div class="share-collab-av" style="background:#2563eb">JR</div>
+          <div class="share-collab-info"><div class="share-collab-name">James Rowe</div><div class="share-collab-email">j.rowe@moore.com</div></div>
+          <span class="share-collab-role">Editor</span>
+        </div>
+        <div class="share-collab-row">
+          <div class="share-collab-av" style="background:#16a34a">DK</div>
+          <div class="share-collab-info"><div class="share-collab-name">Dana Kim</div><div class="share-collab-email">d.kim@moore.com</div></div>
+          <span class="share-collab-role">Commenter</span>
+        </div>
+      </div>
+    </div>
+    <div class="share-foot">
+      <button class="share-done" id="share-done">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- BRIEF OF BRIEF MODAL -->
+<div class="bob-bg" id="bob-bg">
+  <div class="bob-modal">
+    <div class="bob-head">
+      <div class="bob-head-left">
+        <h3>✦ Brief of Brief</h3>
+        <p>AI-generated summary · Synthesized from Overview, Goals &amp; Audience</p>
+      </div>
+      <button class="bob-head-close" id="bob-close">✕</button>
+    </div>
+    <div class="bob-concept-bar">
+      ⚠️ <strong>Sample concept.</strong> In production this AI summary generates live from your completed brief fields. Export functionality requires development. This is a demo using a pre-written sample for Make-A-Wish.
+    </div>
+    <div class="bob-body">
+      <div class="bob-client-pill">🌟 Make-A-Wish (Demo)</div>
+
+      <div class="bob-section">
+        <div class="bob-section-label">Campaign Overview</div>
+        <div class="bob-paragraph">
+          This campaign celebrates a historic milestone in Make-A-Wish history: the 650th wish granted by John Cena — the most by any individual in the foundation's 40+ year existence. A 3-minute hero video package will anchor the campaign, honoring Cena's unbroken 20-year commitment to critically ill children and the transformative power of a single wish. The tone is warm, celebratory, and deeply human — rooted in real moments, real families, and the quiet conviction that showing up matters.
+        </div>
+      </div>
+
+      <div class="bob-divider"></div>
+
+      <div class="bob-section">
+        <div class="bob-section-label">Goals &amp; Objectives</div>
+        <ul class="bob-bullets">
+          <li>Drive awareness of the milestone and reignite emotional connection to the Make-A-Wish mission among lapsed and prospective donors</li>
+          <li>Inspire sustainer conversion — move one-time givers to monthly giving by anchoring the ask to the ongoing impact of each wish</li>
+          <li>Leverage Cena's story as proof of radical commitment, positioning donors as co-heroes in the narrative alongside him</li>
+        </ul>
+      </div>
+
+      <div class="bob-divider"></div>
+
+      <div class="bob-section">
+        <div class="bob-section-label">Target Audience</div>
+        <ul class="bob-bullets">
+          <li>Existing mid-level donors (giving level $100–$999) with lapsed or declining recency — high reactivation potential</li>
+          <li>WWE and pop-culture audiences aged 30–55 with demonstrated affinity for cause-driven celebrity stories</li>
+          <li>Parents of young children — emotionally primed to the stakes of childhood illness and the value of joy</li>
+        </ul>
+      </div>
+
+      <div class="bob-divider"></div>
+
+      <div class="bob-section">
+        <div class="bob-section-label">Creative Direction (3-Min Video)</div>
+        <div class="bob-paragraph">
+          Open on archival footage of early wish moments — raw, unpolished, real. Build through Cena's own words ("I just drop everything") interwoven with wish-kid interviews. Climax at the 650th wish reveal, scored for emotional release. Close with a direct, quiet ask: <em>"One more wish starts with you."</em> No celebrity gloss — this is a film about what showing up looks like over 20 years.
+        </div>
+      </div>
+
+    </div>
+    <div class="bob-foot">
+      <span class="bob-foot-note">⚠ <strong>Demo only.</strong> Export will produce a formatted PDF brief summary — requires development to activate.</span>
+      <button class="bob-export-btn" id="bob-export-btn">⬇ Export Brief of Brief</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTES PANEL -->
+<div class="notes-panel-bg" id="notes-panel-bg"></div>
+<div class="notes-panel" id="notes-panel">
+  <div class="notes-head">
+    <span class="notes-head-icon">💬</span>
+    <div class="notes-head-text">
+      <h4>Notes &amp; Comments</h4>
+      <p>@mention teammates · tag sections</p>
+    </div>
+    <button class="notes-head-close" id="notes-close">✕</button>
+  </div>
+  <div class="notes-concept-bar">
+    <span>⚠️ <strong>Concept feature.</strong> @mention notifications via <span class="teams-badge">&#119872; Teams</span> require Microsoft Graph API integration — a separate dev workstream.</span>
+  </div>
+  <div class="notes-tabs">
+    <button class="notes-tab active" data-ntab="comments">Comments</button>
+    <button class="notes-tab" data-ntab="updates">Team Updates</button>
+  </div>
+  <div class="notes-body">
+
+    <!-- COMMENTS TAB -->
+    <div class="notes-tab-pane active" id="ntab-comments">
+      <div class="note-thread" id="note-thread">
+        <div class="note-item">
+          <div class="note-av" style="background:#D42B2B">SM</div>
+          <div class="note-content">
+            <div class="note-meta"><span class="note-author">Sarah M.</span><span class="note-time">2h ago</span><span class="note-section-tag">Goals</span></div>
+            <div class="note-bubble"><span class="note-mention">@James</span> can you double-check the primary goal selection? I think we're closer to Retention than Acquisition for this one.</div>
+            <div class="note-reactions"><span class="note-react">👍 2</span><span class="note-react">👀 1</span></div>
+          </div>
+        </div>
+        <div class="note-item">
+          <div class="note-av" style="background:#2563eb">JR</div>
+          <div class="note-content">
+            <div class="note-meta"><span class="note-author">James R.</span><span class="note-time">1h ago</span><span class="note-section-tag">Goals</span></div>
+            <div class="note-bubble">Agreed — updating now. Also flagging <span class="note-section-ref">#Strategy</span> for <span class="note-mention">@Dana</span> to review the audience segmentation rationale.</div>
+            <div class="note-reactions"><span class="note-react">✅ 1</span></div>
+          </div>
+        </div>
+        <div class="note-item">
+          <div class="note-av" style="background:#16a34a">DK</div>
+          <div class="note-content">
+            <div class="note-meta"><span class="note-author">Dana K.</span><span class="note-time">45m ago</span><span class="note-section-tag">Strategy</span></div>
+            <div class="note-bubble">On it. I'll add the RFM rationale by EOD. <span class="note-mention">@Sarah</span> do we have last year's response rate data to pull from?</div>
+            <div class="note-reactions"><span class="note-react">👍 1</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- mention popup -->
+      <div class="mention-popup" id="mention-popup">
+        <div class="mention-item" data-name="Sarah Martinez"><div class="mention-item-av" style="background:#D42B2B">SM</div><div><div class="mention-item-name">Sarah Martinez</div><div class="mention-item-role">Creative Director</div></div></div>
+        <div class="mention-item" data-name="James Rowe"><div class="mention-item-av" style="background:#2563eb">JR</div><div><div class="mention-item-name">James Rowe</div><div class="mention-item-role">Account Lead</div></div></div>
+        <div class="mention-item" data-name="Dana Kim"><div class="mention-item-av" style="background:#16a34a">DK</div><div><div class="mention-item-name">Dana Kim</div><div class="mention-item-role">Data Strategist</div></div></div>
+        <div class="mention-item" data-name="Marcus Lee"><div class="mention-item-av" style="background:#7c3aed">ML</div><div><div class="mention-item-name">Marcus Lee</div><div class="mention-item-role">Digital Producer</div></div></div>
+        <div class="mention-item" data-name="Priya Nair"><div class="mention-item-av" style="background:#0891b2">PN</div><div><div class="mention-item-name">Priya Nair</div><div class="mention-item-role">Copywriter</div></div></div>
+      </div>
+    </div>
+
+    <!-- UPDATES TAB -->
+    <div class="notes-tab-pane" id="ntab-updates">
+      <div id="updates-list">
+        <div class="update-item">
+          <div class="update-av" style="background:#D42B2B">SM</div>
+          <div class="update-content">
+            <div class="update-meta"><strong>Sarah Martinez</strong> posted an update</div>
+            <div class="update-text">Brief is now open for team review. Please complete your sections by Thursday EOD. Ping me in Teams if you have questions on scope.</div>
+            <div class="update-time">Today, 9:14am</div>
+          </div>
+        </div>
+        <div class="update-item">
+          <div class="update-av" style="background:#2563eb">JR</div>
+          <div class="update-content">
+            <div class="update-meta"><strong>James Rowe</strong> posted an update</div>
+            <div class="update-text">Goals and Audience sections are filled in. Still waiting on research inputs from the data team before we finalize Strategy.</div>
+            <div class="update-time">Today, 11:02am</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:16px;">
+        <div class="share-label" style="margin-bottom:6px;">Post a team update</div>
+        <textarea id="update-textarea" style="width:100%;padding:9px 11px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;font-family:inherit;outline:none;resize:none;min-height:70px;color:var(--text);transition:border-color .15s;" placeholder="Share a status update with your team…"></textarea>
+        <div style="display:flex;justify-content:flex-end;margin-top:6px;">
+          <button class="notes-send" id="update-post-btn">Post Update</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="notes-input-area" id="notes-input-area">
+    <div class="notes-input-wrap">
+      <textarea class="notes-textarea" id="notes-textarea" placeholder="Add a comment… type @ to mention a teammate"></textarea>
+      <div class="notes-input-footer">
+        <span class="notes-hint">Type <kbd>@</kbd> to mention · <kbd>Enter</kbd> to send</span>
+        <button class="notes-send" id="notes-send-btn">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="csw-bg" id="csw-bg">
+  <div class="csw-modal">
+    <div class="csw-icon">⚠️</div>
+    <h3>Switch client?</h3>
+    <p>You're about to switch to <strong id="csw-new-client"></strong>. This will update the brief layout and pre-fill the client name.</p>
+    <div class="csw-warn">Any unsaved data may be affected by this change. If you'd like to keep your current work, please export your brief before continuing.</div>
+    <div class="csw-actions">
+      <button class="csw-cancel" id="csw-cancel">Cancel</button>
+      <button class="csw-confirm" id="csw-confirm">Yes, Switch Client</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-wrap" id="nav-wrap">
+  <button class="nav-btn active" data-sec="summary">Overview <span class="ndot" id="dot-summary"></span></button>
+  <button class="nav-btn" data-sec="attachments">Assets &amp; Links <span class="ndot" id="dot-attachments"></span></button>
+  <button class="nav-btn" data-sec="goals">Goals <span class="ndot" id="dot-goals"></span></button>
+  <button class="nav-btn" data-sec="audience">Audience <span class="ndot" id="dot-audience"></span></button>
+  <button class="nav-btn" data-sec="strategy">Strategy <span class="ndot" id="dot-strategy"></span></button>
+  <button class="nav-btn" data-sec="offer">Offer <span class="ndot" id="dot-offer"></span></button>
+  <button class="nav-btn" data-sec="creative">Creative <span class="ndot" id="dot-creative"></span></button>
+  <button class="nav-btn" data-sec="dm">DM Package <span class="ndot" id="dot-dm"></span></button>
+  <button class="nav-btn" data-sec="digital">Digital <span class="ndot" id="dot-digital"></span></button>
+  <button class="nav-btn" data-sec="review">Review</button>
+  <button id="btn-bob" style="display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;background:linear-gradient(135deg,#0f0f0f,#2a0a0a);color:#fff;border:1px solid #D42B2B;font-family:inherit;white-space:nowrap;">✦ Brief of Brief</button>
+</div>
+
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;margin-top:-8px;padding:0 2px;">
+  <span style="font-size:10px;color:#999;font-weight:500;">Section status:</span>
+  <span style="display:flex;align-items:center;gap:4px;font-size:10px;color:#999;"><span style="width:6px;height:6px;border-radius:50%;background:#ccc;display:inline-block;"></span> Not started</span>
+  <span style="display:flex;align-items:center;gap:4px;font-size:10px;color:#999;"><span style="width:6px;height:6px;border-radius:50%;background:#f59e0b;display:inline-block;"></span> In progress</span>
+  <span style="display:flex;align-items:center;gap:4px;font-size:10px;color:#999;"><span style="width:6px;height:6px;border-radius:50%;background:#16a34a;display:inline-block;"></span> Complete</span>
+</div>
+<!-- S1: OVERVIEW -->
+<div class="section active" id="sec-summary">
+  <div class="sec-eyebrow">Section 01</div>
+  <div class="section-title">Project overview</div>
+  <div class="section-desc">Campaign identity, channels, approvals, and client background</div>
+  <div class="date-banner">📅 Brief created: <strong id="creation-date"></strong></div>
+
+  <div class="prefill-card">
+    <div class="prefill-card-icon">✨</div>
+    <div class="prefill-card-text">
+      <h4>Pre-fill from an existing document</h4>
+      <p>Upload a <strong>brief, RFP, strategy doc, or past campaign</strong> and Claude will read it and suggest values for relevant fields — saving you from starting from scratch.</p>
+      <div class="prefill-supported">Supports PDF, Word, images, and text files</div>
+    </div>
+    <div>
+      <button class="prefill-upload-btn" id="overview-prefill-btn">⬆ Upload &amp; analyze</button>
+      <input type="file" id="overview-prefill-input" style="display:none" accept=".pdf,.doc,.docx,.txt,.md,.csv,.jpg,.jpeg,.png,.webp">
+    </div>
+  </div>
+
+
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Campaign identity</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="grid2">
+        <div class="field"><label>Campaign name <span class="req">*</span></label><input type="text" id="campaign-name" placeholder="e.g. Spring Appeal 2025"></div>
+        <div class="field"><label>Job code / ID</label><input type="text" id="job-code" placeholder="e.g. MOO-2025-042"></div>
+      </div>
+      <div class="grid2" style="margin-top:11px">
+        <div class="field"><label>Client / brand tier</label>
+          <select id="client-brand">
+            <option value="">Select...</option><option>Tier 1 — Enterprise</option><option>Tier 2 — Mid-market</option><option>Tier 3 — Growth</option><option>Internal</option><option>Other</option>
+          </select>
+        </div>
+        <div class="field"><label>Prepared by</label><input type="text" id="prepared-by" placeholder="Your name"></div>
+      </div>
+      <div class="grid2" style="margin-top:11px">
+        <div class="field"><label>Approved on</label><input type="date" id="approved-by"></div>
+        <div class="field"><label>Completed on</label><input type="date" id="completed-by"></div>
+      </div>
+      <div class="field" style="margin-top:11px"><label>Project type</label>
+        <div class="radio-group">
+          <label class="radio-opt"><input type="radio" name="proj-type" value="new"> New approach</label>
+          <label class="radio-opt"><input type="radio" name="proj-type" value="evolution"> Evolution of existing</label>
+          <label class="radio-opt"><input type="radio" name="proj-type" value="test"> A/B test</label>
+        </div>
+      </div>
+    </div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Channels <span class="req">*</span></span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field">
+        <label>Primary channels</label>
+        <div id="channel-tags" class="tag-wrap"><input class="tag-inp" id="channel-inp" placeholder="Type channel + Enter (Email, Direct Mail, SMS…)"></div>
+        <div class="hint">Press Enter after each channel</div>
+      </div>
+      <div class="field" style="margin-top:10px"><label>Additional notes</label><textarea id="overview-notes" placeholder="Any additional context about this project…"></textarea></div>
+    </div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Mandatories &amp; budget</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Mandatories — must-haves</label>
+        <div id="mandatory-tags" class="tag-wrap"><input class="tag-inp" id="mandatory-inp" placeholder="Logo placement, legal copy, URL, phone number…"></div>
+        <div class="hint">Press Enter after each mandatory</div>
+      </div>
+      <div class="field" style="margin-top:11px"><label>Budget</label><input type="text" id="budget" placeholder="e.g. $45,000 total / $12,000 production"></div>
+    </div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Client background &amp; context</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Why this campaign now? <span class="req">*</span></label><textarea id="why-now" placeholder="What's driving this campaign at this moment?"></textarea></div>
+      <div class="field"><label>Description of the client's work</label><textarea id="client-desc" placeholder="Brief description of what the client does and their mission…"></textarea></div>
+      <div class="field"><label>Events, concerns, or trends that could impact the campaign</label><textarea id="trends" placeholder="Current events, political climate, seasonal factors, competitive landscape…"></textarea></div>
+      <div class="field"><label>Results from past campaigns</label><textarea id="past-results" placeholder="Key metrics, response rates, revenue, learnings from previous work…"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="sec-nav"><span></span><button class="btn-nav btn-nav-p" data-goto="attachments">Next: Attachments ›</button></div>
+</div>
+
+<!-- S2: ASSETS & LINKS -->
+<div class="section" id="sec-attachments">
+  <div class="sec-eyebrow">Section 02</div>
+  <div class="section-title">Assets, attachments &amp; links</div>
+  <div class="section-desc">Upload files, import from your DAM, add required assets and reference links</div>
+
+  <!-- DAM IMPORT BAR -->
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Import from DAM or project management</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="dam-concept-note">
+        <strong>⚠ Concept — requires development.</strong> In production, these buttons would authenticate with your connected platforms and let you browse/search assets directly. What's needed per integration:<br>
+        <strong>Canto DAM:</strong> OAuth 2.0 app registration → Canto REST API (<code>/v1/asset/search</code>) → return asset URLs &amp; metadata.<br>
+        <strong>Adobe Workfront:</strong> API key + Workfront domain → <code>/attask/api/v15.0/document/search</code> → pull proofed assets &amp; project files.<br>
+        Both require a backend proxy to keep credentials server-side. Assets would be embedded as links with metadata, not re-uploaded.
+      </div>
+      <div class="dam-bar">
+        <button class="dam-btn" id="dam-canto-btn">
+          <span class="dam-btn-icon">🗂</span> Import from Canto DAM
+        </button>
+        <button class="dam-btn" id="dam-workfront-btn">
+          <span class="dam-btn-icon">📋</span> Import from Adobe Workfront
+        </button>
+      </div>
+      <div id="dam-imported-list" style="display:none;margin-top:8px;">
+        <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;">Imported assets</div>
+        <div id="dam-imported-items" style="display:flex;flex-direction:column;gap:6px;"></div>
+      </div>
+    </div></div></div>
+  </div>
+
+  <!-- FILE UPLOAD -->
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Upload files</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="drop-zone" id="drop-zone">
+        <div class="dz-icon">📎</div>
+        <div class="dz-text">Drag &amp; drop files here, or <strong>browse to upload</strong><br><small style="color:#aaa">PDF, Word, Excel, PowerPoint, images — any file type</small></div>
+      </div>
+      <input type="file" id="file-input" multiple style="display:none">
+      <div class="att-badge" id="att-badge">📎 <span id="att-num">0</span> file(s) attached</div>
+      <div class="att-list" id="att-list"></div>
+    </div></div></div>
+  </div>
+
+  <!-- REQUIRED ASSETS -->
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Required assets</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field">
+        <label>Assets needed for this campaign</label>
+        <div id="asset-tags" class="tag-wrap"><input class="tag-inp" id="asset-inp" placeholder="Brand guidelines, photography, logo files, premiums…"></div>
+        <div class="hint">Press Enter after each asset</div>
+      </div>
+    </div></div></div>
+  </div>
+
+  <!-- REFERENCE LINKS -->
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Reference links</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="tbl-scroll">
+        <table class="link-table">
+          <thead><tr><th>Label / description</th><th>URL</th><th>Type</th><th style="width:28px"></th></tr></thead>
+          <tbody id="links-body"></tbody>
+        </table>
+      </div>
+      <button class="add-btn" data-addrow="links">+ Add link</button>
+    </div></div></div>
+  </div>
+
+  <div class="sec-nav">
+    <button class="btn-nav" data-goto="summary">‹ Back</button>
+    <button class="btn-nav btn-nav-p" data-goto="goals">Next: Goals ›</button>
+  </div>
+</div>
+
+<!-- DAM MODAL (shared for Canto + Workfront) -->
+<div class="dam-modal-bg" id="dam-modal-bg">
+  <div class="dam-modal">
+    <div class="dam-modal-head">
+      <h3 id="dam-modal-title">Import from DAM</h3>
+      <button class="dam-modal-close" id="dam-modal-close">✕</button>
+    </div>
+    <div class="dam-modal-body">
+      <div class="dam-concept-banner">⚠️ <strong>Demo only.</strong> This simulates the browse/search experience. In production, results would be live assets from your connected platform.</div>
+      <div class="dam-search-row">
+        <input class="dam-search-inp" id="dam-search-inp" placeholder="Search assets by name, tag, or project…">
+        <button class="dam-search-btn" id="dam-search-btn">Search</button>
+      </div>
+      <div class="dam-results" id="dam-results"></div>
+      <div class="dam-dev-note">
+        <strong>For developers — integration notes:</strong>
+        <span id="dam-dev-text"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: GOALS -->
+<div class="section" id="sec-goals">
+  <div class="sec-eyebrow">Section 03</div>
+  <div class="section-title">Goals &amp; objectives</div>
+  <div class="section-desc">Define success before work begins</div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Objectives</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Primary goal <span class="req">*</span></label>
+        <select id="primary-goal">
+          <option value="">Select primary goal…</option>
+          <option>Revenue — maximize donations / revenue</option><option>Acquisition — acquire new donors</option>
+          <option>Retention — retain and upgrade existing donors</option><option>Reactivation — reactivate lapsed donors</option>
+          <option>Awareness — build brand / mission awareness</option><option>Cultivation — steward mid/major donors</option>
+          <option>Sustainer conversion — convert one-time to monthly</option><option>Event-driven — drive event attendance or response</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label>Secondary goal(s)</label><textarea id="secondary-goals" placeholder="Optional secondary objectives…"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Measurement</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Success metrics &amp; KPIs</label>
+        <div id="kpi-tags" class="tag-wrap"><input class="tag-inp" id="kpi-inp" placeholder="e.g. Response rate, Revenue, ROAS, Cost per donor…"></div>
+      </div>
+      <div class="field" style="margin-top:11px"><label>Prior tests &amp; learnings</label><textarea id="prior-tests" placeholder="What have we already tested? What did we learn?"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="sec-nav">
+    <button class="btn-nav" data-goto="attachments">‹ Back</button>
+    <button class="btn-nav btn-nav-p" data-goto="audience">Next: Audience ›</button>
+  </div>
+</div>
+
+<!-- S4: AUDIENCE -->
+<div class="section" id="sec-audience">
+  <div class="sec-eyebrow">Section 04</div>
+  <div class="section-title">Target audience &amp; segmentation</div>
+  <div class="section-desc">Who we're talking to and how we're grouping them</div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Primary audiences <span class="req">*</span></span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field">
+        <div id="aud-tags" class="tag-wrap"><input class="tag-inp" id="aud-inp" placeholder="e.g. Active donors, Lapsed 24-month, Sustainers…"></div>
+      </div>
+      <div class="field" style="margin-top:11px"><label>Audience insights / personas</label><textarea id="aud-insights" placeholder="What motivates this audience? Demographics, psychographics, giving history…"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Segmentation</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Segmentation strategy</label>
+        <select id="seg-strategy">
+          <option value="">Select approach…</option><option>RFM (Recency / Frequency / Monetary)</option>
+          <option>Giving level / ask string tiers</option><option>Donor type (single / sustainer / major)</option>
+          <option>Engagement / behavioral</option><option>Geographic</option>
+          <option>Channel preference</option><option>Custom / hybrid</option>
+        </select>
+      </div>
+      <div class="field" style="margin-top:11px"><label>Personalization requirements</label><textarea id="personalization" placeholder="Variable content, name/ask personalization, dynamic creative elements…"></textarea></div>
+      <div class="field"><label>Quantity by segment</label><textarea id="qty-segment" placeholder="e.g. Segment A (lapsed 12mo): 50,000 / Segment B (active): 120,000"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="sec-nav">
+    <button class="btn-nav" data-goto="goals">‹ Back</button>
+    <button class="btn-nav btn-nav-p" data-goto="strategy">Next: Strategy ›</button>
+  </div>
+</div>
+
+<!-- S5: STRATEGY -->
+<div class="section" id="sec-strategy">
+  <div class="sec-eyebrow">Section 05</div>
+  <div class="section-title">Strategy</div>
+  <div class="section-desc">Creative strategy, research findings, and planner-informed audience strategies</div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Creative strategy</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Key challenge we are solving <span class="req">*</span></label><textarea id="key-challenge" placeholder="What is the core problem this campaign must address?"></textarea></div>
+      <div class="field"><label>How will we solve this with creative?</label><textarea id="creative-solution" placeholder="The strategic approach — what angle or framework guides our creative response?"></textarea></div>
+      <div class="field"><label>What are we trying to communicate?</label><textarea id="communicate" placeholder="The single most important thing the audience should take away…"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Research findings</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Summary of key research findings</label><textarea id="research-summary" placeholder="What does the research tell us? Insights from studies, reports, or data analysis…"></textarea></div>
+      <div class="grid2">
+        <div class="field"><label>Research source(s)</label><textarea id="research-sources" placeholder="Links, report names, studies, proprietary data sources…"></textarea></div>
+        <div class="field"><label>Date of research</label><input type="text" id="research-date" placeholder="e.g. Q1 2025, March 2025"></div>
+      </div>
+      <div class="field"><label>Neuro-Fundraising® Lab insights</label><textarea id="neuro-insights" placeholder="Emotional response data, attention metrics, or behavioral findings from Moore's Neuro-Fundraising Lab…"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Audience strategy — planner &amp; strategist input</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Recommended audience strategy</label><textarea id="aud-strategy-rec" placeholder="Strategies from planners and strategists — suppression logic, modeled audiences, look-alike targeting…"></textarea></div>
+      <div class="grid2">
+        <div class="field"><label>Planner(s) involved</label><input type="text" id="planner-names" placeholder="Names of strategists / planners who contributed"></div>
+        <div class="field"><label>Data sources / models used</label><input type="text" id="data-models" placeholder="e.g. SimioCloud, RFM model, lookalike audience…"></div>
+      </div>
+      <div class="field"><label>Segmentation rationale</label><textarea id="seg-rationale" placeholder="Why were these segments chosen? What data or strategy drove this decision?"></textarea></div>
+      <div class="field"><label>Audience risks or considerations</label><textarea id="aud-risks" placeholder="Fatigue, suppression needs, regulatory considerations, sensitivity flags…"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="sec-nav">
+    <button class="btn-nav" data-goto="audience">‹ Back</button>
+    <button class="btn-nav btn-nav-p" data-goto="offer">Next: Offer ›</button>
+  </div>
+</div>
+
+<!-- S6: OFFER -->
+<div class="section" id="sec-offer">
+  <div class="sec-eyebrow">Section 06</div>
+  <div class="section-title">Offer &amp; key positioning</div>
+  <div class="section-desc">The value exchange and reason to act now</div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Value proposition</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Offer / value proposition <span class="req">*</span></label><textarea id="offer-vp" placeholder="Why should a donor give, and what will their gift accomplish?"></textarea></div>
+      <div class="field"><label>Supporting messaging</label><textarea id="supporting-msg" placeholder="Secondary proof points, impact statements, testimonials…"></textarea></div>
+      <div class="field"><label>Urgency / seasonal hook</label><textarea id="urgency" placeholder="Deadline, matching gift, seasonal moment, key event or news hook…"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Ask strategy</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Tone / voice</label>
+        <select id="tone">
+          <option value="">Select tone…</option><option>Urgent &amp; emotional</option><option>Warm &amp; personal</option>
+          <option>Inspirational &amp; aspirational</option><option>Informational &amp; credible</option>
+          <option>Conversational &amp; direct</option><option>Bold &amp; provocative</option>
+          <option>Grateful &amp; stewardship-focused</option><option>Custom (describe below)</option>
+        </select>
+      </div>
+      <div class="field" style="margin-top:11px"><label>Dollar asks / ask strings / equivalencies</label><textarea id="ask-strings" placeholder="e.g. $25 / $50 / $100 / $250 / Other"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="sec-nav">
+    <button class="btn-nav" data-goto="strategy">‹ Back</button>
+    <button class="btn-nav btn-nav-p" data-goto="creative">Next: Creative ›</button>
+  </div>
+</div>
+
+<!-- S7: CREATIVE -->
+<div class="section" id="sec-creative">
+  <div class="sec-eyebrow">Section 07</div>
+  <div class="section-title">Creative direction</div>
+  <div class="section-desc">Messaging, insight, and creative execution guidance</div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Messaging &amp; direction</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Key messaging / positioning</label><textarea id="key-msg" placeholder="The core message framework and hierarchy…"></textarea></div>
+      <div class="field"><label>Key insight to innovate in response to the challenge</label><textarea id="key-insight" placeholder="The aha moment or creative tension that unlocks the brief…"></textarea></div>
+      <div class="field"><label>Stories and visuals</label><textarea id="stories-visuals" placeholder="Story angles, subject names, photography direction, visual mood…"></textarea></div>
+      <div class="field"><label>Reference links / inspiration</label><textarea id="references" placeholder="URLs, campaign names, competitor examples, prior creative links…"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="sec-nav">
+    <button class="btn-nav" data-goto="offer">‹ Back</button>
+    <button class="btn-nav btn-nav-p" data-goto="dm">Next: DM Package ›</button>
+  </div>
+</div>
+
+<!-- S8: DIRECT MAIL -->
+<div class="section" id="sec-dm">
+  <div class="tab-unavailable" id="dm-unavailable">
+    <div class="tab-unavailable-icon">🚫</div>
+    <div class="tab-unavailable-text">DM Package is not available for this client</div>
+    <div class="tab-unavailable-sub">This section has been disabled based on the selected client preset.</div>
+  </div>
+  <div class="sec-eyebrow">Section 08</div>
+  <div class="section-title">Direct mail package</div>
+  <div class="section-desc">Package details, production specs, testing, and timeline</div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Package components</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field">
+        <div id="dm-tags" class="tag-wrap"><input class="tag-inp" id="dm-inp" placeholder="OE, letter, BRE, lift note, insert…"></div>
+      </div>
+      <div class="grid2" style="margin-top:11px">
+        <div class="field"><label>Mail date</label><input type="date" id="mail-date"></div>
+        <div class="field"><label>In-home date</label><input type="date" id="inhome-date"></div>
+      </div>
+      <div class="field" style="margin-top:11px"><label>Premiums / add-ons</label><textarea id="premiums" placeholder="Labels, calendar, gift card, petition, notepad…"></textarea></div>
+      <div class="field"><label>Additional multichannel components</label>
+        <div id="multi-tags" class="tag-wrap"><input class="tag-inp" id="multi-inp" placeholder="Influencers, PSA, CTV…"></div>
+      </div>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Production &amp; technical</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Print specs</label><textarea id="print-specs" placeholder="Paper stock, size, colors, finish, bindery…"></textarea></div>
+      <div class="grid2">
+        <div class="field"><label>Mailing quantities by segment</label><textarea id="mail-qty" placeholder="Segment breakdown and quantities…"></textarea></div>
+        <div class="field"><label>Versioning / data merge notes</label><textarea id="versioning" placeholder="Variable field rules, version logic…"></textarea></div>
+      </div>
+      <div class="grid2" style="margin-top:11px">
+        <div class="field"><label>Appeal codes</label><input type="text" id="appeal-codes" placeholder="e.g. SP25DM-A"></div>
+        <div class="field"><label>Acknowledgment copy</label><textarea id="ack-copy" placeholder="Thank you language…"></textarea></div>
+      </div>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Testing plan</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Control vs. test(s)</label><textarea id="control-test" placeholder="Describe the control and what you're testing…"></textarea></div>
+      <div class="grid3">
+        <div class="field"><label>Creative variables</label><textarea id="creative-vars" placeholder="Copy, format, offer, image…"></textarea></div>
+        <div class="field"><label>Audience splits</label><textarea id="aud-splits" placeholder="Holdout %, test cell sizes…"></textarea></div>
+        <div class="field"><label>Success metrics</label><textarea id="test-metrics" placeholder="What constitutes a winning test?"></textarea></div>
+      </div>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Timeline</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="tbl-scroll">
+        <table class="dyn-table"><thead><tr><th>Task</th><th>Owner</th><th>Start</th><th>Due</th><th style="width:28px"></th></tr></thead>
+        <tbody id="timeline-body"></tbody></table>
+      </div>
+      <button class="add-btn" data-addrow="timeline">+ Add task</button>
+      <div class="field" style="margin-top:12px"><label>Review process / key decision makers</label><textarea id="review-process" placeholder="Who approves at each stage?"></textarea></div>
+      <div class="field"><label>Next steps / approvals</label><textarea id="next-steps" placeholder="Immediate action items and owners…"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="sec-nav">
+    <button class="btn-nav" data-goto="creative">‹ Back</button>
+    <button class="btn-nav btn-nav-p" data-goto="digital">Next: Digital ›</button>
+  </div>
+</div>
+
+<!-- S9: DIGITAL -->
+<div class="section" id="sec-digital">
+  <div class="tab-unavailable" id="digital-unavailable">
+    <div class="tab-unavailable-icon">🚫</div>
+    <div class="tab-unavailable-text">Digital is not available for this client</div>
+    <div class="tab-unavailable-sub">This section has been disabled based on the selected client preset.</div>
+  </div>
+  <div class="sec-eyebrow">Section 09</div>
+  <div class="section-title">Digital</div>
+  <div class="section-desc">Email, SMS, paid media, deliverables, and performance tracking</div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Campaign overview</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="grid2">
+        <div class="field"><label>Campaign dates</label><div class="grid2"><input type="date" id="dig-start"><input type="date" id="dig-end"></div></div>
+        <div class="field"><label>Revenue goal</label><input type="text" id="revenue-goal" placeholder="e.g. $500,000"></div>
+      </div>
+      <div class="field" style="margin-top:11px"><label>Digital channels</label>
+        <div id="dig-chan-tags" class="tag-wrap"><input class="tag-inp" id="dig-chan-inp" placeholder="Email, SMS, Paid Social, Display, SEM, CTV…"></div>
+      </div>
+      <div class="grid2" style="margin-top:11px">
+        <div class="field"><label>Digital objectives</label><textarea id="dig-objectives" placeholder="Specific digital goals and KPIs…"></textarea></div>
+        <div class="field"><label>Digital strategy</label><textarea id="dig-strategy" placeholder="Channel mix rationale, sequencing, retargeting…"></textarea></div>
+      </div>
+      <div class="field"><label>Key learnings from past campaigns</label><textarea id="dig-learnings" placeholder="What worked, what didn't, open/click rates, ROAS benchmarks…"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Offer &amp; messaging</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="grid2">
+        <div class="field">
+          <label>Core message / tagline</label>
+          <input type="text" id="core-tagline" placeholder="The headline concept…">
+          <div class="char-count" id="tc">0 / 80</div>
+        </div>
+        <div class="field"><label>Key theme / concept</label><input type="text" id="key-theme" placeholder="e.g. Hope in action"></div>
+      </div>
+      <div class="field" style="margin-top:11px"><label>Emotional hooks / quotes</label><textarea id="emotional-hooks" placeholder="Key quotes, emotional moments, story angles…"></textarea></div>
+      <div class="field"><label>Call to action(s)</label>
+        <div id="cta-tags" class="tag-wrap"><input class="tag-inp" id="cta-inp" placeholder="Donate now, Give today, Match my gift…"></div>
+      </div>
+      <div class="field" style="margin-top:11px"><label>Creative direction</label><textarea id="dig-creative-dir" placeholder="Visual approach, motion, narrative format…"></textarea></div>
+      <div class="field"><label>Key dates for thematic messaging</label><textarea id="key-dates" placeholder="GivingTuesday, year-end, campaign deadline, match window close…"></textarea></div>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Email campaigns</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="field"><label>Series name</label><input type="text" id="email-series" placeholder="e.g. Spring 2025 — Year-end series"></div>
+      <div class="tbl-scroll" style="margin-top:11px">
+        <table class="dyn-table" style="min-width:600px;table-layout:fixed">
+          <thead><tr><th style="width:26px">#</th><th style="width:100px">Send date</th><th style="width:100px">Type</th><th style="width:90px">Audience</th><th style="width:80px">Signer</th><th style="width:80px">CTA</th><th>Key message</th><th style="width:26px"></th></tr></thead>
+          <tbody id="email-body"></tbody>
+        </table>
+      </div>
+      <button class="add-btn" data-addrow="email">+ Add email</button>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">SMS campaigns</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="tbl-scroll">
+        <table class="dyn-table" style="min-width:460px;table-layout:fixed">
+          <thead><tr><th style="width:26px">#</th><th style="width:100px">Send date</th><th style="width:120px">Audience</th><th style="width:100px">CTA</th><th>Message</th><th style="width:26px"></th></tr></thead>
+          <tbody id="sms-body"></tbody>
+        </table>
+      </div>
+      <button class="add-btn" data-addrow="sms">+ Add SMS</button>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Paid media plan</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="tbl-scroll">
+        <table class="dyn-table" style="min-width:460px;table-layout:fixed">
+          <thead><tr><th style="width:120px">Channel</th><th style="width:120px">Audience</th><th style="width:140px">Messaging theme</th><th>Creative notes</th><th style="width:26px"></th></tr></thead>
+          <tbody id="paid-body"></tbody>
+        </table>
+      </div>
+      <button class="add-btn" data-addrow="paid">+ Add channel</button>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Deliverables &amp; specs</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="grid2">
+        <div class="field"><label>Emails</label><textarea id="spec-email" placeholder="Quantity, sizes, versions…"></textarea></div>
+        <div class="field"><label>SMS</label><textarea id="spec-sms" placeholder="Messages, character limits…"></textarea></div>
+        <div class="field"><label>Social ads</label><textarea id="spec-social" placeholder="Platforms, sizes, formats…"></textarea></div>
+        <div class="field"><label>Display ads</label><textarea id="spec-display" placeholder="Sizes, static/GIF/HTML5…"></textarea></div>
+        <div class="field"><label>Landing pages</label><textarea id="spec-lp" placeholder="URLs, templates, A/B tests…"></textarea></div>
+        <div class="field"><label>Auto-responders / donation forms</label><textarea id="spec-forms" placeholder="Confirmation pages, thank-you emails…"></textarea></div>
+      </div>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">URLs &amp; landing pages</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="tbl-scroll">
+        <table class="dyn-table" style="table-layout:fixed">
+          <thead><tr><th style="width:150px">Purpose</th><th>URL</th><th style="width:100px">Status</th><th style="width:26px"></th></tr></thead>
+          <tbody id="url-body"></tbody>
+        </table>
+      </div>
+      <button class="add-btn" data-addrow="url">+ Add URL</button>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Approvals &amp; timeline</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="grid3">
+        <div class="field"><label>Strategy approval deadline</label><input type="date" id="strat-deadline"></div>
+        <div class="field"><label>Content submission deadline</label><input type="date" id="content-deadline"></div>
+        <div class="field"><label>Launch date</label><input type="date" id="launch-date"></div>
+      </div>
+    </div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-hdr-title">Post-campaign performance tracking</span><span class="chev">▼</span></div>
+    <div class="card-bwrap"><div class="card-binner"><div class="card-body">
+      <div class="tbl-scroll">
+        <table class="dyn-table" style="table-layout:fixed">
+          <thead><tr><th>Metric</th><th style="width:110px">Target</th><th style="width:110px">Actual</th><th>Notes</th><th style="width:26px"></th></tr></thead>
+          <tbody id="perf-body"></tbody>
+        </table>
+      </div>
+      <button class="add-btn" data-addrow="perf">+ Add metric</button>
+    </div></div></div>
+  </div>
+  <div class="sec-nav">
+    <button class="btn-nav" data-goto="dm">‹ Back</button>
+    <button class="btn-nav btn-nav-p" data-goto="review">Review brief ›</button>
+  </div>
+</div>
+
+<!-- S10: REVIEW -->
+<div class="section" id="sec-review">
+  <div class="sec-eyebrow">Review</div>
+  <div class="section-title">Brief review</div>
+  <div class="section-desc">Summary of all completed fields — click any section header to jump back and edit</div>
+  <div class="health-wrap">
+    <div class="health-title">Brief completeness</div>
+    <div class="health-sub">Based on required and recommended fields across all sections</div>
+    <div class="health-main">
+      <div class="health-bar"><div class="health-fill" id="hfill" style="width:0%"></div></div>
+      <div class="health-pct" id="hpct">0%</div>
+    </div>
+    <div class="health-grid" id="health-grid"></div>
+  </div>
+  <div id="review-content"></div>
+  <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+    <button class="btn-nav" data-goto="digital">‹ Back</button>
+    <button class="btn-nav btn-nav-p" id="btn-json2">Export JSON</button>
+    <button class="btn-nav" id="btn-export2">Export formatted brief</button>
+    <button class="btn-nav" id="btn-print2">Print / PDF</button>
+  </div>
+</div>
+
+
+<!-- PREFILL MODAL -->
+<div class="pf-bg" id="pf-bg">
+  <div class="pf-modal">
+    <div class="pf-head">
+      <div>
+        <h3>✨ AI analysis — pre-fill brief</h3>
+        <p id="pf-filename">Analyzing document…</p>
+      </div>
+      <button class="pf-close" id="pf-close" title="Close">×</button>
+    </div>
+    <div class="pf-body" id="pf-body">
+      <div class="pf-loading" id="pf-loading">
+        <div class="pf-spinner"></div>
+        <span id="pf-loading-msg">Reading document…</span>
+      </div>
+      <div id="pf-results" style="display:none">
+        <div class="pf-select-row">
+          <span class="pf-count" id="pf-count">0 fields found</span>
+          <button class="pf-select-all" id="pf-select-all">Select / deselect all</button>
+        </div>
+        <div id="pf-fields"></div>
+      </div>
+      <div class="pf-none" id="pf-none" style="display:none">No pre-fillable information found in this document.</div>
+    </div>
+    <div class="pf-foot">
+      <button class="pf-cancel" id="pf-cancel">Cancel</button>
+      <button class="pf-apply" id="pf-apply" disabled>Apply selected fields</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- CHATBOT WIDGET -->
+<div class="cb-bubble">
+  <div class="cb-panel" id="cb-panel">
+    <div class="cb-head">
+      <span class="cb-head-icon">✨</span>
+      <div class="cb-head-text"><h4>Brief Assistant</h4><p>Powered by Claude · Moore</p></div>
+      <button class="cb-head-close" id="cb-close">×</button>
+    </div>
+    <div class="cb-messages" id="cb-messages"></div>
+    <div class="cb-foot">
+      <input type="file" id="cb-file-input" style="display:none" accept=".pdf,.txt,.md,.jpg,.jpeg,.png,.webp">
+      <button class="cb-attach" id="cb-attach" title="Upload a document">📎</button>
+      <textarea class="cb-input" id="cb-input" placeholder="Ask me about this brief…" rows="1"></textarea>
+      <button class="cb-send" id="cb-send">↑</button>
+    </div>
+  </div>
+  <button class="cb-btn" id="cb-toggle"><span>💬</span><div class="cb-pulse"></div></button>
+</div>
+
+</div><!-- /app -->
+
+<!-- KEYBOARD MODAL -->
+<div class="kbd-bg" id="kbd-bg">
+  <div class="kbd-modal">
+    <h3>⌨ Keyboard shortcuts</h3>
+    <div class="krow"><span class="klabel">Next section</span><span class="kkeys"><span class="kk">]</span> or <span class="kk">→</span></span></div>
+    <div class="krow"><span class="klabel">Previous section</span><span class="kkeys"><span class="kk">[</span> or <span class="kk">←</span></span></div>
+    <div class="krow"><span class="klabel">Save draft</span><span class="kkeys"><span class="kk">Ctrl</span> + <span class="kk">S</span></span></div>
+    <div class="krow"><span class="klabel">Jump to Overview</span><span class="kkeys"><span class="kk">Ctrl</span> + <span class="kk">1</span></span></div>
+    <div class="krow"><span class="klabel">Jump to Review</span><span class="kkeys"><span class="kk">Ctrl</span> + <span class="kk">0</span></span></div>
+    <div class="krow"><span class="klabel">Show shortcuts</span><span class="kkeys"><span class="kk">?</span></span></div>
+    <div class="krow"><span class="klabel">Close</span><span class="kkeys"><span class="kk">Esc</span></span></div>
+    <button class="kbd-close-btn" id="kbd-close">Close</button>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+// ─── No inline onclick anywhere. All events wired here. ───────────────────────
+
+var TAGS = {};
+var ATTS = [];
+var CUR = 'summary';
+var DIRTY = false;
+var SAVED_TS = null;
+var SAVE_TIMER = null;
+
+var SEC_ORDER = ['summary','attachments','goals','audience','strategy','offer','creative','dm','digital','review'];
+var SEC_LABELS = {summary:'Project overview',attachments:'Attachments',goals:'Goals & objectives',audience:'Audience',strategy:'Strategy',offer:'Offer',creative:'Creative direction',dm:'DM Package',digital:'Digital',review:'Review'};
+var SEC_FIELDS = {
+  summary:[{id:'campaign-name',req:true},{id:'why-now',req:true},{type:'tags',id:'channel-tags'}],
+  attachments:[],
+  goals:[{id:'primary-goal',req:true},{id:'secondary-goals'}],
+  audience:[{type:'tags',id:'aud-tags',req:true},{id:'seg-strategy'},{id:'aud-insights'}],
+  strategy:[{id:'key-challenge',req:true},{id:'creative-solution'},{id:'communicate'}],
+  offer:[{id:'offer-vp',req:true},{id:'tone'},{id:'ask-strings'}],
+  creative:[{id:'key-msg',req:true},{id:'key-insight'},{id:'stories-visuals'}],
+  dm:[{id:'mail-date'},{id:'print-specs'},{id:'control-test'}],
+  digital:[{id:'revenue-goal'},{id:'core-tagline'},{id:'launch-date'}],
+  review:[]
+};
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+document.getElementById('creation-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+// Nav tabs
+document.getElementById('nav-wrap').addEventListener('click', function(e) {
+  var btn = e.target.closest('.nav-btn');
+  if (btn) goTo(btn.getAttribute('data-sec'));
+});
+
+// All data-goto buttons (section nav + topbar)
+document.addEventListener('click', function(e) {
+  var el = e.target.closest('[data-goto]');
+  if (el) goTo(el.getAttribute('data-goto'));
+});
+
+// Topbar buttons
+document.getElementById('btn-save').addEventListener('click', function() { saveNow(false); });
+document.getElementById('btn-json').addEventListener('click', exportJSON);
+document.getElementById('btn-export').addEventListener('click', exportHTML);
+document.getElementById('btn-print').addEventListener('click', function() { window.print(); });
+document.getElementById('btn-shortcuts').addEventListener('click', showKbd);
+document.getElementById('btn-json2').addEventListener('click', exportJSON);
+document.getElementById('btn-export2').addEventListener('click', exportHTML);
+document.getElementById('btn-print2').addEventListener('click', function() { window.print(); });
+document.getElementById('kbd-close').addEventListener('click', hideKbd);
+document.getElementById('kbd-bg').addEventListener('click', function(e) { if (e.target === this) hideKbd(); });
+
+// Overview pre-fill button
+document.getElementById('overview-prefill-btn').addEventListener('click', function() {
+  document.getElementById('overview-prefill-input').click();
+});
+document.getElementById('overview-prefill-input').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  e.target.value = '';
+  analyzeFromOverview(file);
+});
+
+// Card collapse — delegated
+document.addEventListener('click', function(e) {
+  var hdr = e.target.closest('.card-hdr');
+  if (hdr) hdr.closest('.card').classList.toggle('collapsed');
+});
+
+// Add-row buttons — delegated
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('[data-addrow]');
+  if (btn) addRow(btn.getAttribute('data-addrow'));
+});
+
+// Delete row buttons — delegated
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.del-btn');
+  if (btn) btn.closest('tr').remove();
+});
+
+// Tag remove — delegated
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.tx');
+  if (!btn) return;
+  var tag = btn.closest('.tag');
+  var wrap = btn.closest('.tag-wrap');
+  var val = tag.getAttribute('data-val');
+  var cid = wrap.id;
+  if (TAGS[cid]) TAGS[cid] = TAGS[cid].filter(function(t) { return t !== val; });
+  tag.remove();
+  markDirty(); updateDots();
+});
+
+// Tag inputs — delegated keydown
+document.addEventListener('keydown', function(e) {
+  if (!e.target.classList.contains('tag-inp')) return;
+  if (e.key !== 'Enter' && e.key !== ',') return;
+  e.preventDefault();
+  var inp = e.target;
+  var val = inp.value.trim().replace(/,$/, '');
+  if (!val) return;
+  var wrap = inp.closest('.tag-wrap');
+  var cid = wrap.id;
+  if (!TAGS[cid]) TAGS[cid] = [];
+  if (TAGS[cid].indexOf(val) > -1) { toast('Already added', 't-dark'); return; }
+  TAGS[cid].push(val);
+  var sp = document.createElement('span');
+  sp.className = 'tag';
+  sp.setAttribute('data-val', val);
+  sp.innerHTML = val + ' <button class="tx" title="Remove">×</button>';
+  wrap.insertBefore(sp, inp);
+  inp.value = '';
+  markDirty(); updateDots();
+});
+
+// Tag wrap click to focus input
+document.addEventListener('click', function(e) {
+  var wrap = e.target.closest('.tag-wrap');
+  if (wrap && e.target === wrap) {
+    var inp = wrap.querySelector('.tag-inp');
+    if (inp) inp.focus();
+  }
+});
+
+// All form fields — mark dirty + grow textareas
+document.addEventListener('input', function(e) {
+  markDirty();
+  if (e.target.tagName === 'TEXTAREA') grow(e.target);
+  if (e.target.id === 'core-tagline') {
+    document.getElementById('tc').textContent = e.target.value.length + ' / 80';
+  }
+  updateDots();
+});
+document.addEventListener('change', function(e) {
+  markDirty(); updateDots();
+});
+
+// Attachments
+document.getElementById('drop-zone').addEventListener('click', function() {
+  document.getElementById('file-input').click();
+});
+document.getElementById('drop-zone').addEventListener('dragover', function(e) {
+  e.preventDefault(); this.classList.add('drag-over');
+});
+document.getElementById('drop-zone').addEventListener('dragleave', function() {
+  this.classList.remove('drag-over');
+});
+document.getElementById('drop-zone').addEventListener('drop', function(e) {
+  e.preventDefault(); this.classList.remove('drag-over');
+  processFiles(e.dataTransfer.files);
+});
+document.getElementById('file-input').addEventListener('change', function(e) {
+  processFiles(e.target.files); e.target.value = '';
+});
+
+// Attachment remove — delegated
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.att-rm');
+  if (!btn) return;
+  var idx = parseInt(btn.getAttribute('data-idx'), 10);
+  var item = document.getElementById('att-' + idx);
+  if (item) item.remove();
+  ATTS[idx] = null;
+  updateAttBadge();
+  markDirty();
+});
+
+// Prefill modal close
+document.getElementById('pf-bg').addEventListener('click', function(e) { if (e.target === this) closePF(); });
+document.getElementById('pf-close').addEventListener('click', closePF);
+document.getElementById('pf-cancel').addEventListener('click', closePF);
+document.getElementById('pf-apply').addEventListener('click', applyPF);
+document.getElementById('pf-select-all').addEventListener('click', function() {
+  var boxes = document.querySelectorAll('#pf-fields input[type=checkbox]');
+  var allChecked = Array.from(boxes).every(function(b) { return b.checked; });
+  boxes.forEach(function(b) { b.checked = !allChecked; });
+  updatePFCount();
+});
+document.getElementById('pf-fields').addEventListener('change', updatePFCount);
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  var tag = (e.target.tagName || '').toLowerCase();
+  var inField = tag === 'input' || tag === 'textarea' || tag === 'select';
+  if (e.key === 'Escape') { hideKbd(); return; }
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveNow(false); return; }
+  if ((e.ctrlKey || e.metaKey) && e.key === '1') { e.preventDefault(); goTo('summary'); return; }
+  if ((e.ctrlKey || e.metaKey) && e.key === '0') { e.preventDefault(); goTo('review'); return; }
+  if (!inField) {
+    if (e.key === '?' || e.key === '/') { showKbd(); e.preventDefault(); return; }
+    var idx = SEC_ORDER.indexOf(CUR);
+    if ((e.key === ']' || e.key === 'ArrowRight') && idx < SEC_ORDER.length - 1) { goTo(SEC_ORDER[idx + 1]); e.preventDefault(); }
+    if ((e.key === '[' || e.key === 'ArrowLeft') && idx > 0) { goTo(SEC_ORDER[idx - 1]); e.preventDefault(); }
+  }
+});
+
+// Init rows + restore
+addRow('timeline'); addRow('email'); addRow('sms'); addRow('paid'); addRow('url'); addRow('perf'); addRow('links');
+restoreFromStorage();
+updateDots();
+setInterval(updateSaveText, 30000);
+
+// ─── NAVIGATION ───────────────────────────────────────────────────────────────
+function goTo(id) {
+  if (!id) return;
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+  var sec = document.getElementById('sec-' + id);
+  if (sec) sec.classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(function(b) {
+    b.classList.toggle('active', b.getAttribute('data-sec') === id);
+  });
+  var badge = document.getElementById('mode-badge');
+  if (badge) badge.textContent = SEC_LABELS[id] || id;
+  CUR = id;
+  if (id === 'review') buildReview();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── GROW TEXTAREAS ───────────────────────────────────────────────────────────
+function grow(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
+function growAll() { document.querySelectorAll('textarea').forEach(function(t) { if (t.value) grow(t); }); }
+
+// ─── DYNAMIC ROWS ─────────────────────────────────────────────────────────────
+function addRow(type) {
+  var tr = document.createElement('tr');
+  if (type === 'timeline') {
+    tr.innerHTML = '<td><input type="text" placeholder="Task"></td><td><input type="text" placeholder="Owner"></td><td><input type="date"></td><td><input type="date"></td><td><button class="del-btn" title="Remove">×</button></td>';
+    document.getElementById('timeline-body').appendChild(tr);
+  } else if (type === 'email') {
+    var n = document.getElementById('email-body').children.length + 1;
+    tr.innerHTML = '<td style="text-align:center;font-size:11px;color:#aaa">' + n + '</td><td><input type="date"></td><td><select style="font-size:12px"><option>Appeal</option><option>Cultivation</option><option>Acquisition</option><option>Reactivation</option><option>Stewardship</option><option>Event</option><option>Sustainer</option></select></td><td><input type="text" placeholder="Segment"></td><td><input type="text" placeholder="Signer"></td><td><input type="text" placeholder="CTA"></td><td><input type="text" placeholder="Key message"></td><td><button class="del-btn" title="Remove">×</button></td>';
+    document.getElementById('email-body').appendChild(tr);
+  } else if (type === 'sms') {
+    var n2 = document.getElementById('sms-body').children.length + 1;
+    tr.innerHTML = '<td style="text-align:center;font-size:11px;color:#aaa">' + n2 + '</td><td><input type="date"></td><td><input type="text" placeholder="Audience"></td><td><input type="text" placeholder="CTA"></td><td><input type="text" placeholder="Message"></td><td><button class="del-btn" title="Remove">×</button></td>';
+    document.getElementById('sms-body').appendChild(tr);
+  } else if (type === 'paid') {
+    tr.innerHTML = '<td><select style="font-size:12px"><option>Facebook/Instagram</option><option>Google Search</option><option>Display</option><option>YouTube</option><option>CTV/OTT</option><option>TikTok</option><option>Twitter/X</option><option>LinkedIn</option><option>Pinterest</option><option>Other</option></select></td><td><input type="text" placeholder="Audience"></td><td><input type="text" placeholder="Theme"></td><td><input type="text" placeholder="Notes"></td><td><button class="del-btn" title="Remove">×</button></td>';
+    document.getElementById('paid-body').appendChild(tr);
+  } else if (type === 'url') {
+    tr.innerHTML = '<td><input type="text" placeholder="Purpose"></td><td><input type="url" placeholder="https://…"></td><td><select style="font-size:12px"><option>Planned</option><option>In progress</option><option>Live</option><option>Archived</option></select></td><td><button class="del-btn" title="Remove">×</button></td>';
+    document.getElementById('url-body').appendChild(tr);
+  } else if (type === 'perf') {
+    tr.innerHTML = '<td><input type="text" placeholder="Metric name"></td><td><input type="text" placeholder="Target"></td><td><input type="text" placeholder="Actual"></td><td><input type="text" placeholder="Notes"></td><td><button class="del-btn" title="Remove">×</button></td>';
+    document.getElementById('perf-body').appendChild(tr);
+  } else if (type === 'links') {
+    tr.innerHTML = '<td><input type="text" placeholder="e.g. Brand guidelines, Prior creative, Competitor example…"></td><td><input type="url" placeholder="https://…"></td><td><select style="font-size:12px"><option>Reference</option><option>Prior creative</option><option>Competitor</option><option>Inspiration</option><option>Brand asset</option><option>Research</option><option>Other</option></select></td><td><button class="del-btn" title="Remove">×</button></td>';
+    document.getElementById('links-body').appendChild(tr);
+  }
+}
+
+// ─── ATTACHMENTS ──────────────────────────────────────────────────────────────
+function fileIcon(name) {
+  var ext = (name.split('.').pop() || '').toLowerCase();
+  var m = {pdf:'📄',doc:'📝',docx:'📝',xls:'📊',xlsx:'📊',ppt:'📋',pptx:'📋',jpg:'🖼',jpeg:'🖼',png:'🖼',gif:'🖼',webp:'🖼',mp4:'🎬',mov:'🎬',zip:'🗜',csv:'📊'};
+  return m[ext] || '📎';
+}
+function fmtSize(b) { if (b < 1024) return b + 'B'; if (b < 1048576) return (b/1024).toFixed(1) + 'KB'; return (b/1048576).toFixed(1) + 'MB'; }
+
+function renderAtt(entry, idx) {
+  var item = document.createElement('div');
+  item.className = 'att-item'; item.id = 'att-' + idx;
+  var isImg = /\.(jpg|jpeg|png|gif|webp)$/i.test(entry.name);
+  var preview = (isImg && entry._url) ? '<img class="att-thumb" src="' + entry._url + '" alt="">' : '<div class="att-icon">' + fileIcon(entry.name) + '</div>';
+  var nameEl = '<div class="att-name">' + esc(entry.name) + '</div>';
+  var sizeEl = '<div class="att-size">' + fmtSize(entry.size) + '</div>';
+  var descEl = '<textarea class="att-desc" rows="2" placeholder="Optional: briefly describe this file…" data-attidx="' + idx + '"></textarea>';
+  var rmBtn = '<button class="att-rm" data-idx="' + idx + '" title="Remove">×</button>';
+  item.innerHTML = preview + '<div class="att-info">' + nameEl + sizeEl + descEl + '</div>' + rmBtn;
+  document.getElementById('att-list').appendChild(item);
+  // wire textarea grow + save desc
+  item.querySelector('.att-desc').addEventListener('input', function() {
+    grow(this);
+    ATTS[idx].desc = this.value;
+    markDirty();
+  });
+  updateAttBadge();
+}
+
+function processFiles(files) {
+  Array.from(files).forEach(function(file) {
+    var idx = ATTS.length;
+    var entry = { name: file.name, size: file.size, desc: '' };
+    entry._file = file;
+    ATTS.push(entry);
+    if (/\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)) {
+      var reader = new FileReader();
+      reader.onload = function(e) { entry._url = e.target.result; renderAtt(entry, idx); };
+      reader.readAsDataURL(file);
+    } else { renderAtt(entry, idx); }
+    markDirty();
+  });
+}
+
+function updateAttBadge() {
+  var n = ATTS.filter(Boolean).length;
+  var b = document.getElementById('att-badge');
+  b.style.display = n > 0 ? 'flex' : 'none';
+  document.getElementById('att-num').textContent = n;
+}
+
+// ─── COMPLETION ───────────────────────────────────────────────────────────────
+function fieldFilled(f) {
+  if (f.type === 'tags') return !!(TAGS[f.id] && TAGS[f.id].length > 0);
+  var el = document.getElementById(f.id);
+  return !!(el && el.value.trim().length > 0);
+}
+function secComp(sid) {
+  var flds = SEC_FIELDS[sid] || [];
+  if (!flds.length) return null;
+  var filled = flds.filter(fieldFilled).length;
+  return { filled: filled, total: flds.length, pct: Math.round(filled / flds.length * 100) };
+}
+function updateDots() {
+  SEC_ORDER.forEach(function(id) {
+    var dot = document.getElementById('dot-' + id);
+    if (!dot) return;
+    var c = secComp(id);
+    if (!c) { dot.className = 'ndot'; return; }
+    // Only show status if section has been touched (at least 1 field filled)
+    if (c.filled === 0) { dot.className = 'ndot'; }
+    else if (c.filled >= c.total) { dot.className = 'ndot full'; }
+    else { dot.className = 'ndot partial'; }
+  });
+}
+
+// ─── SAVE ─────────────────────────────────────────────────────────────────────
+function markDirty() {
+  DIRTY = true;
+  document.getElementById('sdot').className = 'sdot unsaved';
+  document.getElementById('stext').textContent = 'Unsaved changes';
+  clearTimeout(SAVE_TIMER);
+  SAVE_TIMER = setTimeout(function() { saveNow(true); }, 1500);
+}
+function saveNow(silent) {
+  var data = {};
+  document.querySelectorAll('input[id],select[id],textarea[id]').forEach(function(el) { data[el.id] = el.value; });
+  data._tags = JSON.parse(JSON.stringify(TAGS));
+  var r = document.querySelector('input[name=proj-type]:checked');
+  data._radio = r ? r.value : '';
+  try {
+    localStorage.setItem('moore-brief-v4', JSON.stringify(data));
+    DIRTY = false; SAVED_TS = Date.now();
+    document.getElementById('sdot').className = 'sdot saved';
+    updateSaveText();
+    if (!silent) toast('Draft saved', 't-green');
+  } catch(e) { toast('Save failed — storage full?', 't-red'); }
+}
+function updateSaveText() {
+  if (DIRTY) return;
+  var el = document.getElementById('stext');
+  if (!SAVED_TS) { el.textContent = 'No changes'; return; }
+  var s = Math.round((Date.now() - SAVED_TS) / 1000);
+  el.textContent = s < 10 ? 'Saved just now' : s < 60 ? 'Saved ' + s + 's ago' : 'Saved ' + Math.round(s/60) + 'm ago';
+}
+function restoreFromStorage() {
+  var raw; try { raw = localStorage.getItem('moore-brief-v4'); } catch(e) { return; }
+  if (!raw) return;
+  var data; try { data = JSON.parse(raw); } catch(e) { return; }
+  Object.keys(data).forEach(function(k) {
+    if (k[0] === '_') return;
+    var el = document.getElementById(k);
+    if (el) el.value = data[k];
+  });
+  if (data._radio) { var r = document.querySelector('input[name=proj-type][value="' + data._radio + '"]'); if (r) r.checked = true; }
+  if (data._tags) {
+    Object.keys(data._tags).forEach(function(cid) {
+      TAGS[cid] = [];
+      var wrap = document.getElementById(cid);
+      if (!wrap) return;
+      var inp = wrap.querySelector('.tag-inp');
+      (data._tags[cid] || []).forEach(function(val) {
+        TAGS[cid].push(val);
+        var sp = document.createElement('span');
+        sp.className = 'tag'; sp.setAttribute('data-val', val);
+        sp.innerHTML = val + ' <button class="tx" title="Remove">×</button>';
+        wrap.insertBefore(sp, inp);
+      });
+    });
+  }
+  SAVED_TS = Date.now();
+  document.getElementById('sdot').className = 'sdot saved';
+  updateSaveText();
+  setTimeout(growAll, 60);
+}
+
+// ─── REVIEW ───────────────────────────────────────────────────────────────────
+function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function buildReview() {
+  try {
+    var totalF = 0, totalT = 0, hg = '';
+    SEC_ORDER.forEach(function(id) {
+      var c = secComp(id);
+      if (!c) return;
+      totalF += c.filled; totalT += c.total;
+      var col = c.pct === 100 ? '#22c55e' : c.pct > 0 ? 'var(--red)' : '#e0e0e0';
+      hg += '<div class="hitem" data-goto="' + id + '"><h5>' + (SEC_LABELS[id]||id) + '</h5><div class="hitem-bar"><div class="hitem-fill" style="width:' + c.pct + '%;background:' + col + '"></div></div><div class="hitem-pct">' + c.filled + '/' + c.total + '</div></div>';
+    });
+    var hgEl = document.getElementById('health-grid');
+    if (hgEl) hgEl.innerHTML = hg;
+    var op = totalT > 0 ? Math.round(totalF / totalT * 100) : 0;
+    var hfill = document.getElementById('hfill');
+    var hpct  = document.getElementById('hpct');
+    if (hfill) { hfill.style.width = op + '%'; hfill.style.background = op === 100 ? '#22c55e' : op > 50 ? 'var(--red)' : '#e0e0e0'; }
+    if (hpct)  hpct.textContent = op + '%';
+
+    var SECS = [
+      {id:'summary',title:'Project overview',rows:[
+        {l:'Campaign name',v:v('campaign-name')},{l:'Job code',v:v('job-code')},
+        {l:'Client tier',v:v('client-brand')},{l:'Prepared by',v:v('prepared-by')},
+        {l:'Approved on',v:v('approved-by')},{l:'Completed on',v:v('completed-by')},
+        {l:'Channels',v:(TAGS['channel-tags']||[]).join(', ')},
+        {l:'Why now',v:v('why-now')},{l:'Client description',v:v('client-desc')},
+        {l:'Trends',v:v('trends')},{l:'Past results',v:v('past-results')},
+        {l:'Mandatories',v:(TAGS['mandatory-tags']||[]).join(', ')},{l:'Budget',v:v('budget')}
+      ]},
+      {id:'goals',title:'Goals',rows:[
+        {l:'Primary goal',v:v('primary-goal')},{l:'Secondary goals',v:v('secondary-goals')},
+        {l:'KPIs',v:(TAGS['kpi-tags']||[]).join(', ')},{l:'Prior tests',v:v('prior-tests')}
+      ]},
+      {id:'audience',title:'Audience',rows:[
+        {l:'Audiences',v:(TAGS['aud-tags']||[]).join(', ')},
+        {l:'Insights',v:v('aud-insights')},{l:'Seg. strategy',v:v('seg-strategy')},
+        {l:'Personalization',v:v('personalization')}
+      ]},
+      {id:'strategy',title:'Strategy',rows:[
+        {l:'Key challenge',v:v('key-challenge')},{l:'Creative solution',v:v('creative-solution')},
+        {l:'Core message',v:v('communicate')},{l:'Research',v:v('research-summary')},
+        {l:'Research sources',v:v('research-sources')},{l:'Neuro Lab',v:v('neuro-insights')},
+        {l:'Audience strategy',v:v('aud-strategy-rec')},{l:'Planners',v:v('planner-names')},
+        {l:'Data models',v:v('data-models')}
+      ]},
+      {id:'offer',title:'Offer',rows:[
+        {l:'Value proposition',v:v('offer-vp')},{l:'Supporting msg',v:v('supporting-msg')},
+        {l:'Urgency',v:v('urgency')},{l:'Tone',v:v('tone')},{l:'Ask strings',v:v('ask-strings')}
+      ]},
+      {id:'creative',title:'Creative direction',rows:[
+        {l:'Key messaging',v:v('key-msg')},{l:'Key insight',v:v('key-insight')},
+        {l:'Stories and visuals',v:v('stories-visuals')},{l:'References',v:v('references')}
+      ]},
+      {id:'digital',title:'Digital',rows:[
+        {l:'Revenue goal',v:v('revenue-goal')},{l:'Launch date',v:v('launch-date')},
+        {l:'Tagline',v:v('core-tagline')},{l:'CTAs',v:(TAGS['cta-tags']||[]).join(', ')}
+      ]}
+    ];
+
+    var html = '';
+    SECS.forEach(function(sec) {
+      var rows = sec.rows.filter(function(r) { return r.v && r.v.length > 0; });
+      if (!rows.length) return;
+      html += '<div class="rev-card"><div class="rev-head" data-goto="' + sec.id + '">' + esc(sec.title) + '<span class="edit-lnk">Edit &rsaquo;</span></div>';
+      rows.forEach(function(r) {
+        html += '<div class="rev-row"><div class="rev-label">' + esc(r.l) + '</div><div class="rev-val">' + esc(r.v) + '</div></div>';
+      });
+      html += '</div>';
+    });
+
+    var atts = ATTS.filter(Boolean);
+    var reqAssets = (TAGS['asset-tags'] || []);
+    if (atts.length || reqAssets.length) {
+      html += '<div class="rev-card"><div class="rev-head" data-goto="attachments">Assets &amp; Links<span class="edit-lnk">Edit &rsaquo;</span></div>';
+      if (reqAssets.length) {
+        html += '<div class="rev-row"><div class="rev-label">Required assets</div><div class="rev-val">' + esc(reqAssets.join(', ')) + '</div></div>';
+      }
+      atts.forEach(function(a) {
+        html += '<div class="rev-row"><div class="rev-label">' + fileIcon(a.name) + ' ' + esc(a.name) + '</div><div class="rev-val">' + esc(a.desc || '') + '</div></div>';
+      });
+      html += '</div>';
+    }
+
+    if (!html) {
+      html = '<div class="rev-card"><div style="padding:24px;color:#aaa;font-size:14px">Nothing filled in yet — complete some sections and come back.</div></div>';
+    }
+    var rc = document.getElementById('review-content');
+    if (rc) rc.innerHTML = html;
+
+  } catch(err) {
+    console.error('buildReview error:', err);
+    var rc2 = document.getElementById('review-content');
+    if (rc2) rc2.innerHTML = '<div class="rev-card"><div style="padding:20px;color:#D42B2B;font-size:13px;font-family:monospace">Review render error: ' + String(err.message).replace(/</g,'&lt;') + '</div></div>';
+  }
+}
+
+// ─── EXPORT ───────────────────────────────────────────────────────────────────
+function exportJSON() {
+  var data = {
+    meta:{campaignName:v('campaign-name'),jobCode:v('job-code'),client:v('client-brand'),preparedBy:v('prepared-by'),approvedBy:v('approved-by'),completedBy:v('completed-by'),channels:TAGS['channel-tags']||[]},
+    background:{whyNow:v('why-now'),clientDesc:v('client-desc'),trends:v('trends'),pastResults:v('past-results')},
+    goals:{primary:v('primary-goal'),secondary:v('secondary-goals'),kpis:TAGS['kpi-tags']||[]},
+    audience:{segments:TAGS['aud-tags']||[],insights:v('aud-insights'),segStrategy:v('seg-strategy')},
+    strategy:{challenge:v('key-challenge'),solution:v('creative-solution'),researchSummary:v('research-summary'),audienceStrategy:v('aud-strategy-rec'),planners:v('planner-names')},
+    offer:{vp:v('offer-vp'),tone:v('tone'),askStrings:v('ask-strings')},
+    creative:{keyMsg:v('key-msg'),keyInsight:v('key-insight'),budget:v('budget')},
+    digital:{revenueGoal:v('revenue-goal'),launchDate:v('launch-date'),ctas:TAGS['cta-tags']||[],tagline:v('core-tagline')},
+    attachments:ATTS.filter(Boolean).map(function(a){return{name:a.name,description:a.desc};})
+  };
+  dl(JSON.stringify(data, null, 2), 'application/json', (v('campaign-name')||'brief').replace(/\s+/g,'-').toLowerCase()+'.json');
+  toast('JSON exported','t-dark');
+}
+function exportHTML() {
+  goTo('review');
+  setTimeout(function() {
+    var name = v('campaign-name') || 'Creative Brief';
+    var b = '<h1 style="font-family:sans-serif;color:#111;margin-bottom:4px">' + esc(name) + '</h1><p style="font-family:sans-serif;color:#666;font-size:13px;margin-bottom:24px">Moore Strategic Creative Brief — exported ' + new Date().toLocaleDateString() + '</p>';
+    document.querySelectorAll('#review-content .rev-card').forEach(function(card) {
+      var t = card.querySelector('.rev-head').childNodes[0].textContent.trim();
+      b += '<h2 style="font-family:sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;color:#D42B2B;margin:22px 0 7px;border-bottom:2px solid #D42B2B;padding-bottom:4px">' + t + '</h2>';
+      card.querySelectorAll('.rev-row').forEach(function(row) {
+        b += '<div style="display:flex;gap:14px;padding:6px 0;border-bottom:1px solid #f0f0f0;font-family:sans-serif;font-size:13px"><div style="width:150px;flex-shrink:0;color:#666">' + row.querySelector('.rev-label').textContent + '</div><div style="flex:1;color:#111;font-weight:500">' + row.querySelector('.rev-val').textContent + '</div></div>';
+      });
+    });
+    dl('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+esc(name)+'</title></head><body style="max-width:780px;margin:40px auto;padding:0 20px">'+b+'</body></html>', 'text/html', (v('campaign-name')||'brief').replace(/\s+/g,'-').toLowerCase()+'-brief.html');
+    toast('Brief exported','t-dark');
+  }, 200);
+}
+function dl(content, mime, filename) {
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], {type: mime}));
+  a.download = filename; a.click();
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+function showKbd() { document.getElementById('kbd-bg').classList.add('open'); }
+function hideKbd() { document.getElementById('kbd-bg').classList.remove('open'); }
+
+// ─── TOAST ────────────────────────────────────────────────────────────────────
+function toast(msg, cls) {
+  var el = document.createElement('div');
+  el.className = 'toast ' + (cls || 't-dark');
+  el.textContent = msg;
+  document.getElementById('toast-wrap').appendChild(el);
+  requestAnimationFrame(function() { el.classList.add('show'); });
+  setTimeout(function() { el.classList.remove('show'); setTimeout(function() { el.remove(); }, 300); }, 2500);
+}
+
+// ─── AI PREFILL ───────────────────────────────────────────────────────────────
+var PF_DATA = {};
+
+var FIELD_LABELS = {
+  'campaign-name':'Campaign name','job-code':'Job code / ID','client-brand':'Client / brand tier',
+  'prepared-by':'Prepared by','overview-notes':'Additional notes',
+  'client-desc':'Client work / mission','why-now':'Why now / timing',
+  'trends':'Trends & context','past-results':'Past campaign results',
+  'primary-goal':'Primary goal','secondary-goals':'Secondary goals',
+  'prior-tests':'Prior tests & learnings','deliverables-overview':'Deliverables & specs',
+  'aud-insights':'Audience insights / personas','seg-strategy':'Segmentation strategy',
+  'personalization':'Personalization requirements','qty-segment':'Quantity by segment',
+  'key-challenge':'Key challenge','creative-solution':'Creative solution',
+  'communicate':'Core message','research-summary':'Research findings',
+  'research-sources':'Research sources','research-date':'Date of research',
+  'neuro-insights':'Neuro-Fundraising insights','research-application':'How research informs campaign',
+  'aud-strategy-rec':'Audience strategy','planner-names':'Planner(s) involved',
+  'data-models':'Data sources / models','seg-rationale':'Segmentation rationale',
+  'aud-risks':'Audience risks',
+  'offer-vp':'Value proposition','supporting-msg':'Supporting messaging',
+  'urgency':'Urgency / hook','tone':'Tone / voice','ask-strings':'Ask strings / amounts',
+  'key-msg':'Key messaging','key-insight':'Creative insight',
+  'stories-visuals':'Stories & visuals','references':'Reference links / inspiration',
+  'prior-creative':'Links to prior creative','budget':'Budget',
+  'premiums':'Premiums / add-ons','print-specs':'Print specs',
+  'mail-qty':'Mailing quantities','versioning':'Versioning / data merge',
+  'appeal-codes':'Appeal codes','ack-copy':'Acknowledgment copy',
+  'control-test':'Control vs. test','creative-vars':'Creative variables',
+  'aud-splits':'Audience splits','test-metrics':'Test success metrics',
+  'review-process':'Review process','next-steps':'Next steps / approvals',
+  'revenue-goal':'Revenue goal','dig-objectives':'Digital objectives',
+  'dig-strategy':'Digital strategy','dig-learnings':'Key learnings',
+  'core-tagline':'Core message / tagline','key-theme':'Key theme / concept',
+  'emotional-hooks':'Emotional hooks / quotes','dig-creative-dir':'Digital creative direction',
+  'key-dates':'Key dates for messaging','email-series':'Email series name',
+  'spec-email':'Email deliverables','spec-sms':'SMS deliverables',
+  'spec-social':'Social ad deliverables','spec-display':'Display ad deliverables',
+  'spec-lp':'Landing page deliverables','spec-forms':'Auto-responder deliverables'
+}
+
+var PF_PROMPT = [
+  'You are analyzing a document to pre-fill a strategic fundraising creative brief.',
+  'Extract ONLY information clearly present in the document. Do not invent or assume.',
+  'Return a single JSON object. Only include fields where you found real content.',
+  '',
+  'OVERVIEW: campaign-name (campaign title), job-code (project ID), client-brand (Tier 1/2/3/Internal/Other), prepared-by (preparer name), client-desc (client mission/work), why-now (timing/catalyst), trends (market context), past-results (past metrics/learnings), overview-notes (other context)',
+  'GOALS: primary-goal (Revenue|Acquisition|Retention|Reactivation|Awareness|Cultivation|Sustainer conversion|Event-driven|Other), secondary-goals, prior-tests (learnings), deliverables-overview (outputs needed)',
+  'AUDIENCE: aud-insights (motivations/demographics), seg-strategy (RFM|Giving level|Donor type|Engagement|Geographic|Channel preference|Custom/hybrid), personalization, qty-segment',
+  'STRATEGY: key-challenge (core problem), creative-solution (how creative solves it), communicate (core message), research-summary (findings), research-sources, research-date, neuro-insights, research-application, aud-strategy-rec (planner strategy), planner-names, data-models, seg-rationale, aud-risks',
+  'OFFER: offer-vp (value proposition), supporting-msg, urgency (deadline/matching/hook), tone (Urgent & emotional|Warm & personal|Inspirational & aspirational|Informational & credible|Conversational & direct|Bold & provocative|Grateful & stewardship-focused), ask-strings (dollar amounts)',
+  'CREATIVE: key-msg (messaging framework), key-insight (creative insight), stories-visuals (story angles/visuals), references, prior-creative, budget',
+  'DM: premiums, print-specs, mail-qty, versioning, appeal-codes, ack-copy, control-test, creative-vars, aud-splits, test-metrics, review-process, next-steps',
+  'DIGITAL: revenue-goal, dig-objectives, dig-strategy, dig-learnings, core-tagline (max 80 chars), key-theme, emotional-hooks, dig-creative-dir, key-dates, email-series, spec-email, spec-sms, spec-social, spec-display, spec-lp',
+  '',
+  'Return ONLY valid JSON. No markdown, no explanation.'
+].join('\n')
+
+function closePF() {
+  document.getElementById('pf-bg').classList.remove('open');
+  PF_DATA = {};
+}
+
+function openPF(filename) {
+  document.getElementById('pf-filename').textContent = filename;
+  document.getElementById('pf-loading').style.display = 'flex';
+  document.getElementById('pf-results').style.display = 'none';
+  document.getElementById('pf-none').style.display = 'none';
+  document.getElementById('pf-apply').disabled = true;
+  document.getElementById('pf-fields').innerHTML = '';
+  document.getElementById('pf-bg').classList.add('open');
+}
+
+function showPFResults(extracted) {
+  document.getElementById('pf-loading').style.display = 'none';
+  var keys = Object.keys(extracted).filter(function(k) { return extracted[k] && String(extracted[k]).trim(); });
+  if (keys.length === 0) {
+    document.getElementById('pf-none').style.display = 'block';
+    return;
+  }
+  PF_DATA = extracted;
+  var html = '';
+  keys.forEach(function(k) {
+    var label = FIELD_LABELS[k] || k;
+    var val = String(extracted[k]).trim();
+    var el = document.getElementById(k);
+    var cur = el ? el.value.trim() : '';
+    var curNote = cur ? '<div class="pf-field-cur">Current: ' + esc(cur.substring(0, 80)) + (cur.length > 80 ? '…' : '') + '</div>' : '';
+    html += '<div class="pf-field"><input type="checkbox" data-key="' + k + '" checked><div class="pf-field-info"><div class="pf-field-label">' + label + '</div><div class="pf-field-val">' + esc(val.substring(0, 300)) + (val.length > 300 ? '…' : '') + '</div>' + curNote + '</div></div>';
+  });
+  document.getElementById('pf-fields').innerHTML = html;
+  document.getElementById('pf-results').style.display = 'block';
+  document.getElementById('pf-apply').disabled = false;
+  updatePFCount();
+}
+
+function updatePFCount() {
+  var boxes = document.querySelectorAll('#pf-fields input[type=checkbox]');
+  var checked = Array.from(boxes).filter(function(b) { return b.checked; }).length;
+  document.getElementById('pf-count').textContent = checked + ' of ' + boxes.length + ' fields selected';
+  document.getElementById('pf-apply').disabled = checked === 0;
+}
+
+function applyPF() {
+  var boxes = document.querySelectorAll('#pf-fields input[type=checkbox]:checked');
+  var applied = 0;
+  boxes.forEach(function(box) {
+    var key = box.getAttribute('data-key');
+    var val = PF_DATA[key];
+    if (!val) return;
+    var el = document.getElementById(key);
+    if (!el) return;
+    el.value = String(val).trim();
+    if (el.tagName === 'TEXTAREA') grow(el);
+    applied++;
+  });
+  closePF();
+  markDirty(); updateDots();
+  toast(applied + ' field' + (applied !== 1 ? 's' : '') + ' pre-filled', 't-green');
+}
+
+function setPFLoading(msg) {
+  document.getElementById('pf-loading-msg').textContent = msg || 'Analyzing…';
+}
+
+async function analyzeFromOverview(file) {
+  var btn = document.getElementById('overview-prefill-btn');
+  await runAnalysis(file, btn);
+}
+
+async function analyzeAndPrefill(idx, btn) {
+  var entry = ATTS[idx];
+  if (!entry || !entry._file) { toast('File not available for analysis', 't-red'); return; }
+  var file = entry._file;
+  await runAnalysis(file, btn);
+}
+
+async function runAnalysis(file, btn) {
+  var file = file;
+  var ext = (file.name.split('.').pop() || '').toLowerCase();
+
+  // Check supported types
+  var isPDF = ext === 'pdf';
+  var isImage = ['jpg','jpeg','png','gif','webp'].indexOf(ext) > -1;
+  var isText = ['txt','md','csv','json','html','htm'].indexOf(ext) > -1;
+  var isDoc = ['doc','docx'].indexOf(ext) > -1;
+
+  if (isDoc) {
+    toast('Convert to PDF for best analysis results', 't-dark');
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin">⟳</span> Analyzing…';
+  openPF(file.name);
+
+  try {
+    var messages;
+
+    if (isPDF) {
+      setPFLoading('Reading PDF…');
+      var b64 = await readFileAsB64(file);
+      messages = [{
+        role: 'user',
+        content: [
+          { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: b64 } },
+          { type: 'text', text: PF_PROMPT }
+        ]
+      }];
+    } else if (isImage) {
+      setPFLoading('Reading image…');
+      var b64img = await readFileAsB64(file);
+      var mtype = 'image/' + (ext === 'jpg' ? 'jpeg' : ext);
+      messages = [{
+        role: 'user',
+        content: [
+          { type: 'image', source: { type: 'base64', media_type: mtype, data: b64img } },
+          { type: 'text', text: PF_PROMPT }
+        ]
+      }];
+    } else {
+      setPFLoading('Reading document…');
+      var text = await readFileAsText(file);
+      messages = [{
+        role: 'user',
+        content: 'Document content:\n\n' + text.substring(0, 40000) + '\n\n---\n\n' + PF_PROMPT
+      }];
+    }
+
+    setPFLoading('Claude is analyzing…');
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'anthropic-dangerous-request-check': 'false' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        messages: messages
+      })
+    });
+
+    if (!response.ok) {
+      var err = await response.json().catch(function() { return {}; });
+      throw new Error(err.error && err.error.message ? err.error.message : 'API error ' + response.status);
+    }
+
+    var data = await response.json();
+    var raw = (data.content || []).map(function(c) { return c.text || ''; }).join('');
+    var clean = raw.replace(/```json|```/g, '').trim();
+    var extracted = JSON.parse(clean);
+    showPFResults(extracted);
+
+  } catch(err) {
+    closePF();
+    toast('Analysis failed: ' + err.message, 't-red');
+    console.error('Prefill error:', err);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '✨ Analyze &amp; pre-fill';
+  }
+}
+
+function readFileAsB64(file) {
+  return new Promise(function(resolve, reject) {
+    var r = new FileReader();
+    r.onload = function(e) { resolve(e.target.result.split(',')[1]); };
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+function readFileAsText(file) {
+  return new Promise(function(resolve, reject) {
+    var r = new FileReader();
+    r.onload = function(e) { resolve(e.target.result); };
+    r.onerror = reject;
+    r.readAsText(file);
+  });
+}
+
+
+// ─── BRIEF OF BRIEF ───────────────────────────────────────────────────────────
+document.getElementById('btn-bob').addEventListener('click', function() {
+  document.getElementById('bob-bg').classList.add('open');
+});
+document.getElementById('bob-close').addEventListener('click', function() {
+  document.getElementById('bob-bg').classList.remove('open');
+});
+document.getElementById('bob-bg').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+document.getElementById('bob-export-btn').addEventListener('click', function() {
+  toast('Export coming soon — requires development to activate', 't-dark');
+});
+
+// ─── DAM INTEGRATION ──────────────────────────────────────────────────────────
+var DAM_SOURCE = '';
+var CANTO_ASSETS = [
+  {icon:'🖼', name:'MakeAWish_HeroPhoto_2024.jpg', meta:'JPEG · 4.2MB · Approved'},
+  {icon:'📄', name:'Brand_Guidelines_v3.pdf', meta:'PDF · 1.1MB · Brand'},
+  {icon:'🖼', name:'WishKid_Portrait_Campaign.png', meta:'PNG · 2.8MB · Approved'},
+  {icon:'🎬', name:'Cena_WishMoment_BRoll.mp4', meta:'MP4 · 214MB · Video'},
+  {icon:'📄', name:'DonorAppeal_Control_2023.pdf', meta:'PDF · 890KB · Prior creative'},
+];
+var WORKFRONT_ASSETS = [
+  {icon:'📋', name:'Spring_Appeal_ProjectBrief.pdf', meta:'Workfront · Approved · Due May 30'},
+  {icon:'🖼', name:'ApprovedLogos_AllFormats.zip', meta:'Workfront · Brand kit · Final'},
+  {icon:'📄', name:'CopyDeck_v4_ClientApproved.docx', meta:'Workfront · Copy · Proofed'},
+  {icon:'📊', name:'DonorData_Segments_Q1.xlsx', meta:'Workfront · Data · Confidential'},
+  {icon:'🎨', name:'VisualMoodBoard_Spring.pdf', meta:'Workfront · Creative · Draft'},
+];
+
+function openDAMModal(source) {
+  DAM_SOURCE = source;
+  var isCanto = source === 'canto';
+  document.getElementById('dam-modal-title').textContent = isCanto ? '🗂 Import from Canto DAM' : '📋 Import from Adobe Workfront';
+  document.getElementById('dam-dev-text').textContent = isCanto
+    ? 'Register an OAuth 2.0 app in Canto → exchange code for access token → call GET /v1/asset/search?keyword={query} → render results. Store asset URLs and metadata, not the binary files.'
+    : 'Generate an API key in Workfront Setup → call GET /attask/api/v15.0/document/search?name={query}&fields=name,docObjCode,downloadURL → display with project context. Use a backend proxy to keep credentials off the client.';
+  renderDAMResults(isCanto ? CANTO_ASSETS : WORKFRONT_ASSETS);
+  document.getElementById('dam-modal-bg').classList.add('open');
+  document.getElementById('dam-search-inp').value = '';
+}
+
+function renderDAMResults(assets) {
+  var html = assets.map(function(a) {
+    return '<div class="dam-result-item" data-name="'+esc(a.name)+'" data-meta="'+esc(a.meta)+'" data-icon="'+a.icon+'">'
+      +'<div class="dam-result-thumb">'+a.icon+'</div>'
+      +'<div class="dam-result-info"><div class="dam-result-name">'+esc(a.name)+'</div><div class="dam-result-meta">'+esc(a.meta)+'</div></div>'
+      +'<span class="dam-result-add">+ Add</span></div>';
+  }).join('');
+  document.getElementById('dam-results').innerHTML = html;
+  document.querySelectorAll('.dam-result-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      importDAMAsset(this.getAttribute('data-icon'), this.getAttribute('data-name'), this.getAttribute('data-meta'));
+      document.getElementById('dam-modal-bg').classList.remove('open');
+    });
+  });
+}
+
+function importDAMAsset(icon, name, meta) {
+  var list = document.getElementById('dam-imported-list');
+  var items = document.getElementById('dam-imported-items');
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;align-items:center;gap:9px;padding:8px 10px;background:#f8f8f8;border:1px solid var(--border);border-radius:7px;font-size:12px;';
+  row.innerHTML = '<span style="font-size:18px">'+icon+'</span>'
+    +'<div style="flex:1;min-width:0"><div style="font-weight:600;color:var(--black);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(name)+'</div>'
+    +'<div style="color:var(--muted);font-size:11px">'+esc(meta)+' · via '+DAM_SOURCE.charAt(0).toUpperCase()+DAM_SOURCE.slice(1)+'</div></div>'
+    +'<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;background:#d1fae5;color:#065f46">Linked</span>';
+  items.appendChild(row);
+  list.style.display = 'block';
+  toast(name + ' linked from ' + (DAM_SOURCE === 'canto' ? 'Canto' : 'Workfront'), 't-green');
+  markDirty();
+}
+
+document.getElementById('dam-canto-btn').addEventListener('click', function() { openDAMModal('canto'); });
+document.getElementById('dam-workfront-btn').addEventListener('click', function() { openDAMModal('workfront'); });
+document.getElementById('dam-modal-close').addEventListener('click', function() {
+  document.getElementById('dam-modal-bg').classList.remove('open');
+});
+document.getElementById('dam-modal-bg').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+document.getElementById('dam-search-btn').addEventListener('click', function() {
+  var q = document.getElementById('dam-search-inp').value.toLowerCase();
+  var assets = DAM_SOURCE === 'canto' ? CANTO_ASSETS : WORKFRONT_ASSETS;
+  var filtered = q ? assets.filter(function(a) { return a.name.toLowerCase().includes(q); }) : assets;
+  renderDAMResults(filtered.length ? filtered : assets);
+});
+
+// ─── SHARE MODAL ──────────────────────────────────────────────────────────────
+document.getElementById('btn-share').addEventListener('click', function() {
+  document.getElementById('share-bg').classList.add('open');
+});
+['share-close','share-done'].forEach(function(id) {
+  document.getElementById(id).addEventListener('click', function() {
+    document.getElementById('share-bg').classList.remove('open');
+  });
+});
+document.getElementById('share-bg').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+document.getElementById('share-copy-btn').addEventListener('click', function() {
+  var inp = document.getElementById('share-link-val');
+  inp.select(); document.execCommand('copy');
+  this.textContent = '✓ Copied!';
+  var btn = this; setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+});
+document.querySelectorAll('.share-perm').forEach(function(el) {
+  el.addEventListener('click', function() {
+    document.querySelectorAll('.share-perm').forEach(function(p) { p.classList.remove('active'); });
+    this.classList.add('active');
+  });
+});
+document.getElementById('share-invite-btn').addEventListener('click', function() {
+  var inp = document.getElementById('share-invite-input');
+  var email = inp.value.trim();
+  if (!email || !email.includes('@')) { toast('Please enter a valid email address', 't-red'); return; }
+  var initials = email.substring(0,2).toUpperCase();
+  var colors = ['#7c3aed','#0891b2','#c2410c','#15803d'];
+  var color = colors[Math.floor(Math.random()*colors.length)];
+  var row = document.createElement('div'); row.className = 'share-collab-row';
+  row.innerHTML = '<div class="share-collab-av" style="background:'+color+'">'+initials+'</div><div class="share-collab-info"><div class="share-collab-name">'+esc(email)+'</div><div class="share-collab-email">Invitation sent</div></div><span class="share-collab-role">Editor</span>';
+  document.getElementById('share-collabs').appendChild(row);
+  inp.value = '';
+  toast('Invite sent to ' + email, 't-green');
+});
+
+// ─── NOTES PANEL ──────────────────────────────────────────────────────────────
+var NOTES_OPEN = false;
+var ACTIVE_NTAB = 'comments';
+
+function openNotes() {
+  NOTES_OPEN = true;
+  document.getElementById('notes-panel').classList.add('open');
+  document.getElementById('notes-panel-bg').classList.add('open');
+}
+function closeNotes() {
+  NOTES_OPEN = false;
+  document.getElementById('notes-panel').classList.remove('open');
+  document.getElementById('notes-panel-bg').classList.remove('open');
+}
+
+document.getElementById('btn-notes').addEventListener('click', openNotes);
+document.getElementById('btn-updates').addEventListener('click', function() {
+  openNotes(); switchNTab('updates');
+});
+document.getElementById('notes-close').addEventListener('click', closeNotes);
+document.getElementById('notes-panel-bg').addEventListener('click', closeNotes);
+
+document.querySelectorAll('.notes-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() { switchNTab(this.getAttribute('data-ntab')); });
+});
+function switchNTab(id) {
+  ACTIVE_NTAB = id;
+  document.querySelectorAll('.notes-tab').forEach(function(t) {
+    t.classList.toggle('active', t.getAttribute('data-ntab') === id);
+  });
+  document.querySelectorAll('.notes-tab-pane').forEach(function(p) {
+    p.classList.toggle('active', p.id === 'ntab-' + id);
+  });
+  document.getElementById('notes-input-area').style.display = id === 'comments' ? '' : 'none';
+}
+
+// @mention logic
+var TEAM = ['Sarah Martinez','James Rowe','Dana Kim','Marcus Lee','Priya Nair'];
+var notesTa = document.getElementById('notes-textarea');
+var mentionPopup = document.getElementById('mention-popup');
+
+notesTa.addEventListener('input', function() {
+  var val = this.value;
+  var atIdx = val.lastIndexOf('@');
+  if (atIdx > -1) {
+    var afterAt = val.substring(atIdx + 1);
+    if (!afterAt.includes(' ')) {
+      var q = afterAt.toLowerCase();
+      var matches = TEAM.filter(function(n) { return n.toLowerCase().startsWith(q); });
+      if (matches.length > 0) { showMentionPopup(matches); return; }
+    }
+  }
+  hideMentionPopup();
+});
+
+function showMentionPopup(matches) {
+  document.querySelectorAll('.mention-item').forEach(function(item) {
+    item.style.display = matches.indexOf(item.getAttribute('data-name')) > -1 ? '' : 'none';
+  });
+  mentionPopup.classList.add('show');
+}
+function hideMentionPopup() { mentionPopup.classList.remove('show'); }
+
+document.querySelectorAll('.mention-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    var first = this.getAttribute('data-name').split(' ')[0];
+    var val = notesTa.value;
+    var atIdx = val.lastIndexOf('@');
+    notesTa.value = val.substring(0, atIdx) + '@' + first + ' ';
+    hideMentionPopup(); notesTa.focus();
+  });
+});
+
+notesTa.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendNote(); }
+});
+document.getElementById('notes-send-btn').addEventListener('click', sendNote);
+
+var NOTE_COLORS = ['#D42B2B','#2563eb','#16a34a','#7c3aed','#0891b2','#c2410c'];
+var noteColorIdx = 0;
+function sendNote() {
+  var val = notesTa.value.trim(); if (!val) return;
+  var html = esc(val)
+    .replace(/@(\w+)/g, '<span class="note-mention">@$1</span>')
+    .replace(/#(\w+)/g, '<span class="note-section-ref">#$1</span>');
+  var color = NOTE_COLORS[noteColorIdx % NOTE_COLORS.length]; noteColorIdx++;
+  var item = document.createElement('div'); item.className = 'note-item';
+  item.innerHTML = '<div class="note-av" style="background:'+color+'">You</div><div class="note-content"><div class="note-meta"><span class="note-author">You</span><span class="note-time">Just now</span></div><div class="note-bubble">'+html+'</div><div class="note-reactions"><span class="note-react">👍</span><span class="note-react">✅</span></div></div>';
+  document.getElementById('note-thread').appendChild(item);
+  notesTa.value = ''; hideMentionPopup();
+  var body = document.querySelector('.notes-body'); body.scrollTop = body.scrollHeight;
+}
+
+document.getElementById('update-post-btn').addEventListener('click', function() {
+  var val = document.getElementById('update-textarea').value.trim(); if (!val) return;
+  var now = new Date(); var time = now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  var item = document.createElement('div'); item.className = 'update-item';
+  item.innerHTML = '<div class="update-av" style="background:#555">You</div><div class="update-content"><div class="update-meta"><strong>You</strong> posted an update</div><div class="update-text">'+esc(val)+'</div><div class="update-time">Today, '+time+'</div></div>';
+  document.getElementById('updates-list').prepend(item);
+  document.getElementById('update-textarea').value = '';
+  toast('Update posted to team', 't-green');
+});
+
+// ─── CLIENT SELECTOR ─────────────────────────────────────────────────────────
+var CLIENT_PRESETS = {
+  makeawish: {
+    name: 'Make-A-Wish',
+    clientName: 'Make-A-Wish',
+    hideTabs: ['dm'],      // hide DM Package
+    hiddenLabel: { dm: 'DM Package is not available for Make-A-Wish' }
+  },
+  rmh: {
+    name: 'Ronald McDonald House',
+    clientName: 'Ronald McDonald House',
+    hideTabs: ['digital'], // hide Digital
+    hiddenLabel: { digital: 'Digital is not available for Ronald McDonald House' }
+  },
+  acs: {
+    name: 'American Cancer Society',
+    clientName: 'American Cancer Society',
+    hideTabs: []           // no restrictions
+  }
+};
+
+var ACTIVE_CLIENT = null;
+var PENDING_CLIENT = null;
+
+var clientSel = document.getElementById('client-selector');
+var cswBg     = document.getElementById('csw-bg');
+var cswCancel = document.getElementById('csw-cancel');
+var cswConfirm= document.getElementById('csw-confirm');
+
+clientSel.addEventListener('change', function() {
+  var val = clientSel.value;
+  if (!val) { applyClientPreset(null); return; }
+
+  // If there's already a client set, show warning
+  if (ACTIVE_CLIENT) {
+    PENDING_CLIENT = val;
+    document.getElementById('csw-new-client').textContent = CLIENT_PRESETS[val].name + ' (Demo)';
+    cswBg.classList.add('open');
+  } else {
+    applyClientPreset(val);
+  }
+});
+
+cswCancel.addEventListener('click', function() {
+  cswBg.classList.remove('open');
+  // Revert the select back to current client
+  clientSel.value = ACTIVE_CLIENT || '';
+  PENDING_CLIENT = null;
+});
+
+cswConfirm.addEventListener('click', function() {
+  cswBg.classList.remove('open');
+  applyClientPreset(PENDING_CLIENT);
+  PENDING_CLIENT = null;
+});
+
+function applyClientPreset(val) {
+  ACTIVE_CLIENT = val;
+  var allTabs = ['summary','attachments','goals','audience','strategy','offer','creative','dm','digital','review'];
+
+  if (!val) {
+    // No client — show all tabs, unlock all sections
+    allTabs.forEach(function(t) {
+      showTab(t, true);
+      unlockSection(t);
+    });
+    return;
+  }
+
+  var preset = CLIENT_PRESETS[val];
+
+  // Pre-fill client name
+  var cnField = document.getElementById('campaign-name');
+  // We pre-fill a dedicated client name field if it exists; otherwise just leave a toast
+  // Actually we'll set the "client-desc" field briefly or use a client name display
+  // The brief has no standalone "client name" field — fill "prepared-by" label area won't work
+  // Best option: pre-fill the section title badge and show toast, set overview-notes if empty
+  toast('Client set to ' + preset.name, 't-dark');
+
+  // Update hidden tabs
+  allTabs.forEach(function(t) {
+    if (preset.hideTabs.indexOf(t) > -1) {
+      showTab(t, false);
+      lockSection(t, preset.name);
+    } else {
+      showTab(t, true);
+      unlockSection(t);
+    }
+  });
+
+  // If currently on a locked tab, redirect to Overview
+  var curSec = document.querySelector('.section.active');
+  if (curSec) {
+    var curId = curSec.id.replace('sec-', '');
+    if (preset.hideTabs.indexOf(curId) > -1) {
+      goTo('summary');
+    }
+  }
+}
+
+function showTab(secId, visible) {
+  var btn = document.querySelector('.nav-btn[data-sec="' + secId + '"]');
+  if (!btn) return;
+  btn.style.display = visible ? '' : 'none';
+}
+
+function lockSection(secId, clientName) {
+  var sec = document.getElementById('sec-' + secId);
+  if (!sec) return;
+  sec.classList.add('tab-locked');
+  // Update the unavailable message
+  var sub = sec.querySelector('.tab-unavailable-sub');
+  if (sub) sub.textContent = 'This section has been disabled for the ' + clientName + ' preset.';
+}
+
+function unlockSection(secId) {
+  var sec = document.getElementById('sec-' + secId);
+  if (!sec) return;
+  sec.classList.remove('tab-locked');
+}
+
+// ─── CHATBOT ──────────────────────────────────────────────────────────────────
+var CB_OPEN = false;
+var CB_HISTORY = [];
+var CB_BUSY = false;
+
+var CB_SYS = 'You are the Moore Strategic Creative Brief Assistant — a smart, concise AI that helps users fill out a fundraising creative brief by asking targeted questions and analyzing documents.\n\nYour job:\n1. Ask focused questions to gather campaign information\n2. When you receive a document, analyze it and extract relevant fields\n3. Output field values in a special block so the system auto-fills the brief\n\nBrief field IDs and descriptions:\nOVERVIEW: campaign-name, job-code, client-brand (Tier 1 — Enterprise|Tier 2 — Mid-market|Tier 3 — Growth|Internal|Other), prepared-by, client-desc, why-now, trends, past-results, overview-notes\nGOALS: primary-goal (Revenue — maximize donations / revenue|Acquisition — acquire new donors|Retention — retain and upgrade existing donors|Reactivation — reactivate lapsed donors|Awareness — build brand / mission awareness|Cultivation — steward mid/major donors|Sustainer conversion — convert one-time to monthly|Event-driven — drive event attendance or response|Other), secondary-goals, prior-tests, deliverables-overview\nAUDIENCE: aud-insights, seg-strategy (RFM (Recency / Frequency / Monetary)|Giving level / ask string tiers|Donor type (single / sustainer / major)|Engagement / behavioral|Geographic|Channel preference|Custom / hybrid), personalization, qty-segment\nSTRATEGY: key-challenge, creative-solution, communicate, research-summary, research-sources, research-date, neuro-insights, research-application, aud-strategy-rec, planner-names, data-models, seg-rationale, aud-risks\nOFFER: offer-vp, supporting-msg, urgency, tone (Urgent & emotional|Warm & personal|Inspirational & aspirational|Informational & credible|Conversational & direct|Bold & provocative|Grateful & stewardship-focused), ask-strings\nCREATIVE: key-msg, key-insight, stories-visuals, references, prior-creative, budget\nDM: premiums, print-specs, mail-qty, versioning, appeal-codes, ack-copy, control-test, creative-vars, aud-splits, test-metrics, review-process, next-steps\nDIGITAL: revenue-goal, dig-objectives, dig-strategy, dig-learnings, core-tagline, key-theme, emotional-hooks, dig-creative-dir, key-dates, email-series, spec-email, spec-sms, spec-social, spec-display, spec-lp\n\nWhenever you have field values to fill, output them at the end of your message like this:\n|||FIELDS|||{"campaign-name":"Spring Appeal 2025","primary-goal":"Revenue — maximize donations / revenue"}|||END|||\n\nOnly include fields you are confident about. Use exact option text for dropdowns.\nKeep replies short and conversational. Ask 1-2 questions at a time.';
+
+document.getElementById('cb-toggle').addEventListener('click', function() {
+  CB_OPEN = !CB_OPEN;
+  document.getElementById('cb-panel').classList.toggle('open', CB_OPEN);
+  if (CB_OPEN && CB_HISTORY.length === 0) cbGreet();
+});
+document.getElementById('cb-close').addEventListener('click', function() {
+  CB_OPEN = false; document.getElementById('cb-panel').classList.remove('open');
+});
+document.getElementById('cb-send').addEventListener('click', cbSend);
+document.getElementById('cb-attach').addEventListener('click', function() { document.getElementById('cb-file-input').click(); });
+document.getElementById('cb-file-input').addEventListener('change', function(e) {
+  var f = e.target.files[0]; if (!f) return; e.target.value = ''; cbHandleDoc(f);
+});
+document.getElementById('cb-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); cbSend(); }
+});
+document.getElementById('cb-input').addEventListener('input', function() { grow(this); });
+
+function cbGreet() {
+  cbMsg('bot', 'Hi! I\'m your Brief Assistant. I can help two ways:<br><br>📎 <a id="cb-doc-link">Upload a document</a> and I\'ll auto-fill every field I can find.<br><br>💬 Or just chat — tell me about the campaign and I\'ll ask the right questions to build the brief.');
+  document.getElementById('cb-doc-link') && document.getElementById('cb-doc-link').addEventListener('click', function() { document.getElementById('cb-file-input').click(); });
+}
+
+function cbMsg(role, html, filled) {
+  var wrap = document.getElementById('cb-messages');
+  var d = document.createElement('div'); d.className = 'cb-msg ' + role;
+  var b = document.createElement('div'); b.className = 'cb-bubble-msg'; b.innerHTML = html;
+  d.appendChild(b);
+  if (filled > 0) {
+    var t = document.createElement('div'); t.className = 'cb-fields-tag';
+    t.textContent = '✓ ' + filled + ' field' + (filled !== 1 ? 's' : '') + ' filled in the brief';
+    d.appendChild(t);
+  }
+  wrap.appendChild(d); wrap.scrollTop = wrap.scrollHeight;
+}
+
+function cbTyping(show) {
+  var id = 'cb-typing-el';
+  if (!show) { var e = document.getElementById(id); if (e) e.remove(); return; }
+  var wrap = document.getElementById('cb-messages');
+  var d = document.createElement('div'); d.className = 'cb-msg bot'; d.id = id;
+  d.innerHTML = '<div class="cb-typing"><span></span><span></span><span></span></div>';
+  wrap.appendChild(d); wrap.scrollTop = wrap.scrollHeight;
+}
+
+function cbApplyFields(raw) {
+  var s = '|||FIELDS|||', e = '|||END|||';
+  var si = raw.indexOf(s), ei = raw.indexOf(e);
+  if (si === -1 || ei === -1) return { text: raw, n: 0 };
+  var json = raw.substring(si + s.length, ei).trim();
+  var text = (raw.substring(0, si) + raw.substring(ei + e.length)).trim();
+  var n = 0;
+  try {
+    var fields = JSON.parse(json);
+    Object.keys(fields).forEach(function(k) {
+      var v = fields[k]; if (!v) return;
+      var el = document.getElementById(k); if (!el) return;
+      el.value = String(v).trim();
+      if (el.tagName === 'TEXTAREA') grow(el);
+      n++;
+    });
+    if (n > 0) { markDirty(); updateDots(); }
+  } catch(ex) { console.warn('CB field parse error', ex); }
+  return { text: text, n: n };
+}
+
+async function cbSend() {
+  var inp = document.getElementById('cb-input');
+  var txt = inp.value.trim();
+  if (!txt || CB_BUSY) return;
+  inp.value = ''; inp.style.height = 'auto';
+  cbMsg('user', esc(txt).replace(/\n/g, '<br>'));
+  CB_HISTORY.push({ role: 'user', content: txt });
+  await cbCall();
+}
+
+async function cbHandleDoc(file) {
+  cbMsg('user', '📎 <strong>' + esc(file.name) + '</strong>');
+  CB_BUSY = true; cbTyping(true);
+  document.getElementById('cb-send').disabled = true;
+  try {
+    var ext = (file.name.split('.').pop() || '').toLowerCase();
+    var content;
+    if (ext === 'pdf') {
+      var b64 = await readFileAsB64(file);
+      content = [
+        { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: b64 } },
+        { type: 'text', text: 'Analyze this document. Extract all information relevant to the brief fields and fill as many as possible. Then summarize what you found and ask about anything still missing.' }
+      ];
+    } else if (['jpg','jpeg','png','gif','webp'].indexOf(ext) > -1) {
+      var b64i = await readFileAsB64(file);
+      content = [
+        { type: 'image', source: { type: 'base64', media_type: 'image/' + (ext === 'jpg' ? 'jpeg' : ext), data: b64i } },
+        { type: 'text', text: 'Extract all brief-relevant information from this image.' }
+      ];
+    } else {
+      var txt2 = await readFileAsText(file);
+      content = 'Document: "' + file.name + '"\n\n' + txt2.substring(0, 40000) + '\n\nExtract all brief-relevant information and fill as many fields as possible.';
+    }
+    CB_HISTORY.push({ role: 'user', content: content });
+    await cbCall();
+  } catch(e) {
+    cbTyping(false); CB_BUSY = false;
+    document.getElementById('cb-send').disabled = false;
+    cbMsg('bot', 'Sorry, I had trouble reading that file. Try uploading a PDF.');
+  }
+}
+
+async function cbCall() {
+  cbTyping(true); CB_BUSY = true;
+  document.getElementById('cb-send').disabled = true;
+  try {
+    var resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'anthropic-dangerous-request-check': 'false' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1500, system: CB_SYS, messages: CB_HISTORY })
+    });
+    var data = await resp.json();
+    if (!resp.ok) throw new Error((data.error && data.error.message) || 'API error');
+    var raw = (data.content || []).map(function(c) { return c.text || ''; }).join('');
+    var r = cbApplyFields(raw);
+    cbTyping(false);
+    cbMsg('bot', r.text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'), r.n);
+    CB_HISTORY.push({ role: 'assistant', content: raw });
+  } catch(e) {
+    cbTyping(false);
+    cbMsg('bot', 'Error: ' + esc(e.message) + '. Please try again.');
+  } finally {
+    CB_BUSY = false;
+    document.getElementById('cb-send').disabled = false;
+  }
+}
+
+}); // end DOMContentLoaded
+</script>
+</body>
+</html>
